@@ -135,11 +135,24 @@
 			- 29 个头文件
 		- https://en.cppreference.com/w/
 
-## inttypes 头文件讲解
-
-- https://en.cppreference.com/w/
-	- https://en.cppreference.com/w/c/types/integer
-		- int8_t: 8 bit int (2 ^ (8 - 1) 个数字)
-		- int64_t: longlong
-		- Format macro constants
-			- PRID
+- inttypes 头文件讲解
+	- https://en.cppreference.com/w/
+		- https://en.cppreference.com/w/c/types/integer
+			- int8_t: 8 bit int (2 ^ (8 - 1) 个数字)
+			- int64_t: longlong
+			- Format macro constants
+				- PRID
+					- 5.cpp
+- 数学运算代码演示
+	- 左值 VS 右值
+	- 运算符的优先级
+		- 优先级
+		- 方向
+			- 左结合
+			- 右结合
+	- 位运算
+		- 按位与 &
+			- 判断奇偶
+		- 异或
+			- 交换值
+	- 6.cpp
