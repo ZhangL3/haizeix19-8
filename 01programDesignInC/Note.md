@@ -133,3 +133,13 @@
 	- 资料推荐
 		- 极客学院：C 语言教程 中文版
 			- 29 个头文件
+		- https://en.cppreference.com/w/
+
+## inttypes 头文件讲解
+
+- https://en.cppreference.com/w/
+	- https://en.cppreference.com/w/c/types/integer
+		- int8_t: 8 bit int (2 ^ (8 - 1) 个数字)
+		- int64_t: longlong
+		- Format macro constants
+			- PRID
