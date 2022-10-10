@@ -160,6 +160,7 @@
 
 ## 关系运算
 
+### 分支结构讲解
 - 关系运算符
 	- ==, != <, >, <=, =>, !
 	- 返回 0(false) 或 1(true)
@@ -202,3 +203,37 @@
 			- 如果 n = 2: 输出 two
 			- 如果 n = 3: 输出 three
 			- 否则输出 error
+
+### CPU 的分支预测
+
+- 附录 1、回文整数 
+	- 计算机执行 if 语句比较慢
+	- LeetCode 9. Palindrome Number
+		- Determin whether an integer is a palindrome. Do this without extra space.
+			- 1234 -> false
+			- 12321 -> true
+	- 内核指令: _builtin _expect()
+		
+		```cpp
+		#define likely(x) _builtin_expect(!!(x), 1)
+		#define unlikely(x) _builtin_expect(!!(x), 0)
+
+		// likely 代表 x 经常成立
+		// unlikely 代表 x 不经常成立
+		```
+
+		![cpu-1.png](cpu-1.png)
+
+		- 一条指令用一个执行周期 (但起始不均匀)
+		- 串行执行方式，全流程只有一个在执行 5 * 5 = 25
+		- 并行执行方式, 流水线 5 + 4 = 9
+		- cpu 一般时并行执行，当 cpu 遇到 if 时，要等待结果，会做一个预判断，但当判断错的时候，要重新计算，变成了串行执行
+		- 可以人为的用内核指令帮助预判断
+
+			![cpu-2.png](cpu-2.png)
+
+			- 大概率成立 
+
+	- 其他常用内核指令
+
+		![cpu-3.png](cpu-3.png)
