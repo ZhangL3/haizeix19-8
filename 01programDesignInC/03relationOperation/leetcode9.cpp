@@ -21,7 +21,7 @@ bool isPalindrome(int x) {
 int main() {
 	int n;
 	cin >> n;
-	isPalindrome(n);
+	cout << isPalindrome(n) << endl;
 	
 	return 0;
 }
