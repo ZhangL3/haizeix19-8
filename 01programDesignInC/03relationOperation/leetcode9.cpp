@@ -3,7 +3,7 @@ using namespace std;
 
 bool isPalindrome(int x) {
 	// 负数不可能是回文
-	if (__builtin_expect(!!(x < 0, 0))) return false;
+	if (__builtin_expect(!!(x < 0), 0)) return false;
 	long long y = 0;
 	int z = x;
 	while (x) {
