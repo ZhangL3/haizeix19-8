@@ -3,8 +3,8 @@
 using namespace std;
 
 int main() {
-	// int a, b;
-	// scanf("%d%d", &a, &b);
+	int a, b;
+	scanf("%d%d", &a, &b);
 
 	// while (a - b >= 0) {
 	// 	if (a - b == 0) {
@@ -17,11 +17,11 @@ int main() {
 
 	// printf("NO\n");
 
-	// if (a % b) {
-	// 	printf("YES\n");
-	// } else {
-	// 	printf("NO\n");
-	// }
+	if (a % b) {
+		printf("NO\n");
+	} else {
+		printf("YES\n");
+	}
 
 	int c, d;
 	cin >> c >> d;
