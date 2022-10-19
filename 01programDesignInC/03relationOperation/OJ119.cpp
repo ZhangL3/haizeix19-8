@@ -5,8 +5,53 @@ bool isLeapYear(int year) {
 	return !(year % 400) || (!(year % 4) && (year % 100));
 }
 
+int day[13] = {0,
+	31, 28, 31, 30,
+	31, 30, 31, 31,
+	30, 31, 30, 31,
+};
+
+int Days(int y, int m) {
+	return day[m] + (m == 2 && (y % 400 == 0 || (y % 4 == 0 && y % 100 != 0)));
+}
+
+void prev_day(int &y, int &m, int &d) {
+	d -= 1;
+	if (d == 0) {
+		m -= 1;
+		if (m == 0) {
+			y -= 1, m = 12;
+		}
+		// Days: 返回当前月的天数
+		d = Days(y, m);
+	}
+
+	return ;
+}
+
+void next_day(int &y, int &m, int &d) {
+	d += 1;
+	if (d >Days(y, m)) {
+		m += 1, d = 1;
+		if (m > 12) {
+			y += 1, m = 1;
+		}
+	}
+
+	return ;
+}
+
 int main() {
-	int y, m, d,
+	int y, m, d;
+	cin >> y >> m >> d;
+	prev_day(y, m, d);
+	cout << y << " " << m << " " << d << endl;
+	next_day(y, m, d);
+	next_day(y, m, d);
+	cout << y << " " << m << " " << d << endl;
+
+
+/* 	int y, m, d,
 		preY, preM, preD,
 		nextY, nextM, nextD;
 	int bigMonth[] = {1, 3, 5, 7, 8, 10, 12};
@@ -87,5 +132,5 @@ int main() {
 	}
 
 	cout << preY << " " << preM << " " << preD << endl;
-	cout << nextY << " " << nextM << " " << nextD << endl;
+	cout << nextY << " " << nextM << " " << nextD << endl; */
 }
