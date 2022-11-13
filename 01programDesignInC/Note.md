@@ -221,7 +221,7 @@
 			// unlikely 代表 x 不经常成立
 			```
 
-			![cpu-1.png](cpu-1.png)
+			![./03relationOperation/cpu-1.png](./03relationOperation/cpu-1.png)
 
 			- 一条指令用一个执行周期 (但起始不均匀)
 			- 串行执行方式，全流程只有一个在执行 5 * 5 = 25
@@ -229,13 +229,13 @@
 			- cpu 一般时并行执行，当 cpu 遇到 if 时，要等待结果，会做一个预判断，但当判断错的时候，要重新计算，变成了串行执行
 			- 可以人为的用内核指令帮助预判断
 
-				![cpu-2.png](cpu-2.png)
+				![./03relationOperation/cpu-2.png](./03relationOperation/cpu-2.png)
 
 				- 大概率成立 
 
 		- 其他常用内核指令
 
-			![cpu-3.png](cpu-3.png)
+			![./03relationOperation/cpu-3.png](./03relationOperation/cpu-3.png)
 - WHILE 语句
 	- 随堂练习-4
 		- 使用 while 循环实现程序，输出 1-100
@@ -290,7 +290,7 @@
 		- 方便解决类似于分段函数的函数调用
 - PE-45 函数指针的应用 (欧拉计划 45 题)
 
-	![pe45-1.png](pe45-1.png)
+	![./04recursiveFunktion/pe45-1.png](./04recursiveFunktion/pe45-1.png)
 
 	- 值的增长速度大于项数的增长速度
 	- 三角形的第 4 项是 10，如果在五边形和六边形中也能找到 10，它的项数一定小于 10
@@ -322,7 +322,7 @@
 	- 满足条件
 		- gcd(a, b) 的结果必须在 gcd(b, a % b) 中
 
-			![gcd_1.png](gcd_1.png)
+			![./04recursiveFunktion/gcd_1.png](./04recursiveFunktion/gcd_1.png)
 
 			- 设 gcd(a, b) = r
 				所以 a 是 r 的倍数，既 a = x * r。同理: b = y * r
@@ -332,7 +332,7 @@
 			- 所以 r 是被包含在 gcd(b, a & b) 中
 		- gcd(a, b) = r, r 为什么是最大的
 
-			![gcd_2.png](gcd_2.png)
+			![./04recursiveFunktion/gcd_2.png](./04recursiveFunktion/gcd_2.png)
 
 			- 因为 gcd(b, a % b) = gcd(y * r, (x - k * y) * r), 切 r 是最大公约数
 			- 所以 y 与 x - k * y 必须得互质
@@ -346,4 +346,4 @@
 					- 所以 d 只能是 1
 - 12.gcd.cpp
 
-	![gcd_cpp_1.png](gcd_cpp_1.png)
+	![./04recursiveFunktion/gcd_cpp_1.png](./04recursiveFunktion/gcd_cpp_1.png)
