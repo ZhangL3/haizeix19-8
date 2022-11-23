@@ -347,3 +347,38 @@
 - 12.gcd.cpp
 
 	![./04recursiveFunktion/gcd_cpp_1.png](./04recursiveFunktion/gcd_cpp_1.png)
+
+### 扩展欧几里得算法
+
+![./04recursiveFunktion/ex_gcd_1.png](./04recursiveFunktion/ex_gcd_1.png)
+![./04recursiveFunktion/ex_gcd_2.png](./04recursiveFunktion/ex_gcd_2.png)
+![./04recursiveFunktion/ex_gcd_3.png](./04recursiveFunktion/ex_gcd_3.png)
+
+- 求 ax + by = c 的解右两种情况
+	- 没有解 (无法分解到 x = 1, y 为任意数)
+	- 有无数解 (最后一层是 x = 1, y 可以是任意数，比如 = 0，的情况)
+		- 拓展欧几里得公式求出的是无数解中的几个特殊解
+
+- 证明
+	- 数学归纳法
+		- k0 成立 => ki 成立 => k(i + 1) 成立
+		- 递归的原理
+
+![./04recursiveFunktion/ex_gcd_4.png](./04recursiveFunktion/ex_gcd_4.png)
+
+- 出口
+	- b 等于 0 的时候，进入回溯过程
+- 回溯过程
+	- 本层的 x 是上一层的 y
+	- 本层的 y 是上一层的 x - ky, k 是 flow(a / b)
+
+![./04recursiveFunktion/ex_gcd_5.png](./04recursiveFunktion/ex_gcd_5.png)
+
+- 公式
+	- (40, 104): 8 和 104 的最大公约数是 8
+	- d | a: d 是 a 的约数
+	- 8 = 24 - 16(1)：8 是 24 减 16 的 1 倍
+- 扩展欧几里得是反过来的的欧几里得
+	- 充分条件: m 是 (a, b) 的倍数
+	- 所以要先找到 a, b 的公约数（欧几里得，辗转相除）
+	- 然后回溯找到 ax + by = m 成立的值
