@@ -382,3 +382,16 @@
 	- 充分条件: m 是 (a, b) 的倍数
 	- 所以要先找到 a, b 的公约数（欧几里得，辗转相除）
 	- 然后回溯找到 ax + by = m 成立的值
+
+### 函数的声明与定义（一）
+
+![./04recursiveFunktion/func_1.png](./04recursiveFunktion/func_1.png)
+
+- 编译时只要没有语法错误，如没由定义的变量或方法，就可以
+	- g++ -c 1.function.cpp
+	- 每个文件一个对象文件 .o
+- 链接时链接所有对象文件
+	- g++ function.o
+	- 连接时需要变量和方法的内容
+
+![./04recursiveFunktion/func_2.png](./04recursiveFunktion/func_2.png)

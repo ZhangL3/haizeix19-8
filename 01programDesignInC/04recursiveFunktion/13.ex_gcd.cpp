@@ -8,16 +8,18 @@ int ex_gcd(int a, int b, int *x, int *y) {
 		*x = 1, *y = 0;
 		return a;
 	}
-	/* int xx, yy, ret = ex_gcd(b, a % b, &xx, &yy);
+	// 上一层的 x, y 分别存入 xx 和 yy
+	int xx, yy, ret = ex_gcd(b, a % b, &xx, &yy);
 	// 开始回溯
 	// 当前 x 等于上一次的 y
 	*x = yy;
 	// 当前 y 等于上一次的 x - flow(a / b) * y
-	*y = xx - a / b * yy; */
+	*y = xx - a / b * yy;
 
 	// 简洁版
-	int xx, yy, ret = ex_gcd(b, a % b, y, x);
-	*y -= a / b * (*x);
+	// int xx, yy, ret = ex_gcd(b, a % b, y, x);
+	// *y -= a / b * (*x);
+
 	return ret;
 }
 
