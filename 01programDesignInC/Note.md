@@ -393,5 +393,24 @@
 - 链接时链接所有对象文件
 	- g++ function.o
 	- 连接时需要变量和方法的内容
+- 示例文件
+	- 1.function.cpp
+	- 2.union.cpp
 
 ![./04recursiveFunktion/func_2.png](./04recursiveFunktion/func_2.png)
+
+- 函数声明和定义应该写在 .c 的文件中, 再在头文件 .h 中列出对应的函数声明
+
+	![./04recursiveFunktion/func_3.png](./04recursiveFunktion/func_3.png)
+	![./04recursiveFunktion/func_3_2.png](./04recursiveFunktion/func_3_2.png)
+
+	- 错误行为，函数定义放在头文件里。
+		- 头文件里应该只声明函数，是为了编译通过。函数被多次声明没有问题。
+		- 如果定义也写在头文件里，链接的时候可能会出现重复定义的问题
+	- 示例文件
+		- 1.main.cpp
+		- 2.funcB.h
+			- 头文件中写了文件定义，所以 3.funcA.cpp 和 4.funcC.cpp 引入这个头文件是，都定义了一次 funcB()
+		- 3.funcA.cpp
+		- 4.funcC.cpp
+
