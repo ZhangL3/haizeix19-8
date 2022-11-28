@@ -383,7 +383,7 @@
 	- 所以要先找到 a, b 的公约数（欧几里得，辗转相除）
 	- 然后回溯找到 ax + by = m 成立的值
 
-### 函数的声明与定义（一）
+### 函数的声明与定义
 
 ![./04recursiveFunktion/func_1.png](./04recursiveFunktion/func_1.png)
 
@@ -414,3 +414,4 @@
 		- 3.funcA.cpp
 		- 4.funcC.cpp
 
+### 实现简易的 printf 函数
