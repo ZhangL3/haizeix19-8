@@ -3,10 +3,15 @@
 // #define MAX(a, b) a > b ? a : b
 // #define MAX(a, b) (a > b ? a : b)
 // #define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define MAX(a, b) {\
+// ({}) 这个括号必须写，因为替代到调用里，没有个这 () 结构时错误的
+#define MAX(a, b) ({\
   __typeof(a) __a = (a);\
   __typeof(b) __b = (b);\
   __a > __b ? __a : __b;\
+})
+
+#define MIN(a, b) {\
+  a > b ? b : a\
 }
 
 // #func 中的 # 将 func 的内容转换成字符串进行输出
