@@ -19,6 +19,10 @@
   printf("%s = %d\n", #macro, macro);\
 }
 
+#define LOG() {\
+  printf("file: %s, func: %s, line: %d\n", __FILE__, __func__, __LINE__);\
+}
+
 int main() {
   int a = 7;
   // printf("MAX(2, 3) = %d\n", MAX(2, 3));
@@ -33,6 +37,8 @@ int main() {
   p(MAX(2, 3 > 4 ? 3 : 4));
   p(MAX(a++, 6));
   p(a);
+
+  LOG();
   return 0;
 }
 
