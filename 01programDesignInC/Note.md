@@ -543,3 +543,39 @@
   - 宏 __func__ 以字符串形式返回所在函数名称
   - 宏 __LINE__ 以整数形式放回代码行号
 
+### 字符串
+
+- 定义字符数组: char str[size];
+- 初始化字符数组:
+
+  ```cpp
+  // 自动开了 11 + 1 = 12 个位置，最后一个是 '\0' 结束符
+  char str[] = "hello world";
+  char str[size] = {'h', 'e', 'l', 'l', '0'};
+  ```
+- 字符串相关操作 1
+	- 头文件: string.h
+
+||||
+|-|-|-|
+|函数|说明|补充|
+|strlen(str)|计算字符串长度|以 \0 作为结束符，传入的 str 是字符串的首地址|
+|strcmp(str1, str2)|字符串比较|3 种返回值，>0, =0, <0, ASCII 值比较, '\0' 的值为 0，就是逻辑假|
+|strcpy(dest, src)|字符串拷贝||
+|strncmp(str1, str2, n)|安全的字符串比较，最多比较 n 位|
+|strncpy(dest, src, n)|安全的字符串拷贝|
+|memcpy(str1, str2, n)|内存拷贝|
+|memcmp(str1, str2, n)|内存比较|
+|memset(str, c, n)|内存设置|将从数组 str 头开始的 n 位(它的每个字节)，负值为 c, memset(str, 0, sizeof(str): 清空内存，所有 bit 都负值为 0; memset(str, -1, sizeof(str): 所有 bit 都负值为 1|
+
+- 字符串相关操作 2
+	- 头文件: stdio.h
+
+||||
+|-|-|-|
+|函数|说明|补充|
+|sscanf(str1, format, ...)|从字符串 str1 读入内容||
+|sprintf(str1, format, ...)|将内容输出到 str1 中||
+
+- 随堂练习题-4
+	- 请使用字符串相关操作方法，计算一个整型 16 进制表示的位数
