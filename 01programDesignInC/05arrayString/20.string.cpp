@@ -53,10 +53,30 @@ int strcmp1(const char *str1, const char *str2) {
 	return str1[i] - str2[i];
 }
 
+uint64_t strcpy1(char *dest, const char *src) {
+	uint64_t i = 0;
+	for (; src[i] && i < sizeof(dest); i++) {
+		dest[i] = src[i];
+	}
+	printf("dest = %s\n", dest);
+	return i;
+}
+
+uint64_t strncpy1(char *dest, const char *src, uint64_t n) {
+	uint64_t i = 0;
+	for (; i < n && src[i] && i < sizeof(dest); i++) {
+		dest[i] = src[i];
+	}
+	printf("dest = %s\n", dest);
+	return i;
+}
+
 int main() {
 	int n;
 	char str[100];
 	char str1[100] = "hello haizei";
+	char des[100];
+	char des2[100];
 	/* while(~scanf("%d", &n)) {
 		// 把 n 的值以 16 进制字符的形式存入 str
 		sprintf(str, "%x", n);
@@ -71,6 +91,8 @@ int main() {
 	// printf("%d\n", strlen1("hello haizei"));
 	printf("%" PRIu64"\n", strlen2("hello haizei"));
 	printf("%d\n", strcmp1("hello world", "hello haizei"));
+	printf("size of copied charactor = %" PRIu64"\n", strcpy1(des, "Hello c"));
+	printf("size of copied charactor = %" PRIu64"\n", strncpy1(des2, "Hello c", 3));
 
 	return 0;
 }
