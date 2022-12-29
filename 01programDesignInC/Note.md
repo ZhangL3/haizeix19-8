@@ -579,3 +579,56 @@
 
 - 随堂练习题-4
 	- 请使用字符串相关操作方法，计算一个整型 16 进制表示的位数
+
+## 复杂结构与指针
+
+### 结构体讲解
+
+- 结构体
+	- 内存分配
+	 - 按最大的单一结构对齐
+	 	- 这里最大的是 int 和 float，占 4 Byte, 所以 gender 也被分配了 4 个 Byte
+
+		![./06complicatedStructureAndPointer/struc_1.png](./06complicatedStructureAndPointer/struct_1.png)
+	- 通过 header program(1/2/4/...) 能规定对齐的单位大小
+	- 依据属性定义的顺序，内存分配可能不一样
+
+- 随堂练习题-1
+	- 请写出 node1 和 node2 所占的字节数
+
+		![./06complicatedStructureAndPointer/struc_2.png](./06complicatedStructureAndPointer/struct_2.png)
+	
+	- C 中 struct 是结构体，定义变量的类型
+
+		```c
+		struct node1 a;
+		```
+
+	- C++ 中，这么写可以是一个类，所以可以这么定义变量的类型
+
+		```cpp
+		node1 a;
+		```
+	- 访问方式
+		- .: 直接访问
+		- ->: 间接访问
+
+### 联合体讲解
+
+- 共用体 (有一片空间，大家共同利用这个空间)
+	![./06complicatedStructureAndPointer/union_1.png](./06complicatedStructureAndPointer/union_1.png)
+	- 某一个位置的值发生改变，其他人眼里这个位置的值也跟着改变了
+	- 求需求最大的字段的空间，作为整体的空间大小 
+	- 共用体使用了内存覆盖技术，同一时刻只能保存一个成员的值，如果对新的成员赋值，就会把原来成员的值覆盖掉
+
+### 随堂练习题-2
+
+- 请模仿之前课程内容，画出 node 的内存占用结构图
+
+	![./06complicatedStructureAndPointer/union_2.png](./06complicatedStructureAndPointer/union_2.png)
+
+### 随堂练习题-3
+
+- 请使用共用体，实现 ip 转整数的功能
+
+	![./06complicatedStructureAndPointer/practise2_1.png](./06complicatedStructureAndPointer/practise2_1.png)
