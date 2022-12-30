@@ -616,22 +616,21 @@
 ### 联合体讲解
 
 - 共用体 (有一片空间，大家共同利用这个空间)
+
 	![./06complicatedStructureAndPointer/union_1.png](./06complicatedStructureAndPointer/union_1.png)
+
 	- 某一个位置的值发生改变，其他人眼里这个位置的值也跟着改变了
 	- 求需求最大的字段的空间，作为整体的空间大小 
 	- 共用体使用了内存覆盖技术，同一时刻只能保存一个成员的值，如果对新的成员赋值，就会把原来成员的值覆盖掉
+- 随堂练习题-2
+	- 请模仿之前课程内容，画出 node 的内存占用结构图
 
-### 随堂练习题-2
+		![./06complicatedStructureAndPointer/union_2.png](./06complicatedStructureAndPointer/union_2.png)
 
-- 请模仿之前课程内容，画出 node 的内存占用结构图
+- 随堂练习题-3
+	- 请使用共用体，实现 ip 转整数的功能
 
-	![./06complicatedStructureAndPointer/union_2.png](./06complicatedStructureAndPointer/union_2.png)
-
-### 随堂练习题-3
-
-- 请使用共用体，实现 ip 转整数的功能
-
-	![./06complicatedStructureAndPointer/practise2_1.png](./06complicatedStructureAndPointer/practise2_1.png)
+		![./06complicatedStructureAndPointer/practise2_1.png](./06complicatedStructureAndPointer/practise2_1.png)
 
 ### 指针与地址讲解
 
@@ -655,40 +654,33 @@
 		![./06complicatedStructureAndPointer/varAdd_4.png](./06complicatedStructureAndPointer/varAdd_4.png)
 
 	- 指针变量，也是变量
+- 随堂问题 1
+	- 指针变量占几个字节？
+		- 32 位：4 Bytes
+		- 64 位：8 Bytes
+- 等价形式转换
 
-### 随堂问题 1
-		- 指针变量占几个字节？
-			- 32 位：4 Bytes
-			- 64 位：8 Bytes
+	```c
+	int a;
+	int *p = &a;
+	```
 
-### 等价形式转换
+	- *p <-> a (原始变量)
+	- p + 1 <-> &p[1]
+	- p->field <-> (*p).field <-> a.field
+		- ->: 间接引用，通过指针访问字段
+- 随堂问题 2
+	- 假如有如下代码:
 
-```c
-int a;
-int *p = &a;
-```
+		```c
+		struct Data {
+			int x, y;
+		}
+		struct Data a[2], *p = a;
+		```
 
-- *p <-> a (原始变量)
-- p + 1 <-> &p[1]
-- p->field <-> (*p).field <-> a.field
-	- ->: 间接引用，通过指针访问字段
+	- 请用尽可能多的形态表示 a[1].x
 
-### 随堂问题 2
+- 函数指针
 
-- 假如有如下代码:
-
-```c
-struct Data {
-	int x, y;
-}
-struct Data a[2], *p = a;
-```
-
-	- 请用尽可能多的形态表示 a[1].x, 应该有 8 种
-		- a[1].x
-		- *p[1].x
-		- (a + 8).x
-		- (p + 8)->x
-		- (*p + 1)
-
-### 函数指针
+	![./06complicatedStructureAndPointer/func_p_1.png](./06complicatedStructureAndPointer/func_p_1.png)
