@@ -632,3 +632,63 @@
 - 请使用共用体，实现 ip 转整数的功能
 
 	![./06complicatedStructureAndPointer/practise2_1.png](./06complicatedStructureAndPointer/practise2_1.png)
+
+### 指针与地址讲解
+
+- 变量的地址
+	- int 占 4 个 Bytes
+
+		![./06complicatedStructureAndPointer/varAdd_1.png](./06complicatedStructureAndPointer/varAdd_1.png)
+
+	- x64 中一个指针占 8 Bytes
+		- int *p 和 char *q 都占 8 Bytes
+		- 区别不在位数多少，而在取值的方式不同
+
+		![./06complicatedStructureAndPointer/varAdd_2.png](./06complicatedStructureAndPointer/varAdd_2.png)
+
+	- 通过地址传值
+
+		![./06complicatedStructureAndPointer/varAdd_3.png](./06complicatedStructureAndPointer/varAdd_3.png)
+
+	- 传出参数
+
+		![./06complicatedStructureAndPointer/varAdd_4.png](./06complicatedStructureAndPointer/varAdd_4.png)
+
+	- 指针变量，也是变量
+
+### 随堂问题 1
+		- 指针变量占几个字节？
+			- 32 位：4 Bytes
+			- 64 位：8 Bytes
+
+### 等价形式转换
+
+```c
+int a;
+int *p = &a;
+```
+
+- *p <-> a (原始变量)
+- p + 1 <-> &p[1]
+- p->field <-> (*p).field <-> a.field
+	- ->: 间接引用，通过指针访问字段
+
+### 随堂问题 2
+
+- 假如有如下代码:
+
+```c
+struct Data {
+	int x, y;
+}
+struct Data a[2], *p = a;
+```
+
+	- 请用尽可能多的形态表示 a[1].x, 应该有 8 种
+		- a[1].x
+		- *p[1].x
+		- (a + 8).x
+		- (p + 8)->x
+		- (*p + 1)
+
+### 函数指针
