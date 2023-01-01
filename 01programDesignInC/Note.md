@@ -684,3 +684,59 @@
 - 函数指针
 
 	![./06complicatedStructureAndPointer/func_p_1.png](./06complicatedStructureAndPointer/func_p_1.png)
+
+	- 变量和类型的区别
+		- 变量就是一个，如 a
+		- 类型可以定义很多个变量，如 int
+	![./06complicatedStructureAndPointer/func_p_2.png](./06complicatedStructureAndPointer/func_p_2.png)
+
+### typedef 与主函数讲解
+
+- TYPEDEF 的用法
+	- 内建类型的重命名:
+
+		```c
+		typedef long long lint;
+		typedef char * pchar;
+		```
+	
+	- 结构体类型的重命名:
+
+		```c
+		// Node: 结构体
+		// *PNode: 指向该结构体的指针变量
+		typedef struct __node{
+			int x, y;
+		} Node, *PNode;
+		```
+
+	- 函数指针命名:
+
+		```c
+		// 函数指针类型
+		typedef int (*func)(int);
+		```
+- MAIN 函数参数
+
+```c
+int main();
+
+// argc: 传入参数的个数
+// argv: 传入参数的值
+// 如: ls -all
+int main (int argc, char *argv[]);
+
+// char **env 同 char *env[]
+// 存环境变量
+int main (int argc, char *argv[], char **env);
+```
+
+### 第六章代码演示
+
+![./06complicatedStructureAndPointer/C6_codes_1.png](./06complicatedStructureAndPointer/C6_codes_1.png)
+![./06complicatedStructureAndPointer/C6_codes_2.png](./06complicatedStructureAndPointer/C6_codes_2.png)
+![./06complicatedStructureAndPointer/C6_codes_3.png](./06complicatedStructureAndPointer/C6_codes_3.png)
+
+14，15 行和老师的结果不一样, 14 行只有 dcba，15 行报错: ‘int __builtin_puts(const char*)’ reading 1 or more bytes from a region of size 0
+
+![./06complicatedStructureAndPointer/C6_codes_4.png](./06complicatedStructureAndPointer/C6_codes_4.png)
