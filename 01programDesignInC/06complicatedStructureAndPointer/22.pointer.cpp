@@ -48,10 +48,13 @@ int main(int argc, char *argv[], char *env[]) {
 	// 8, 8
 	printf("sizeof(p3) = %lu, sizeof(p4) = %lu\n", sizeof(p3), sizeof(p4));
 	// 强行转成字符串的首地址
-	// 为什么编译不过？
 	printf("%s\n", (char *)(&num1)); // cba
 	printf("%s\n", (char *)(&num2)); // dcba 老师的是 dcbacba
-	// printf("%s\n", (char *)(&num2 + 1));
+	// 为什么编译不过？
+	// g++ 会对代码进行优化，如果只有 %s，printf 会被优化为 puts，但 puts 无法找到 &num + 1 的内存
+	// 所以会报错
+    // printf("%s\n", (char *)(&num2 + 1));
+	printf("%s", (char *)(&num2 + 1));
 	// 为什么编译不过？
 	// printf("%ld\n", offset(struct Data, a));
 	// printf("%ld\n", offset(struct Data, b));

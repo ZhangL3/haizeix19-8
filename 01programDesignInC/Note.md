@@ -739,4 +739,10 @@ int main (int argc, char *argv[], char **env);
 
 14，15 行和老师的结果不一样, 14 行只有 dcba，15 行报错: ‘int __builtin_puts(const char*)’ reading 1 or more bytes from a region of size 0
 
+解决：优化时 printf 转 puts 找不到 + 1 的问题 
+
 ![./06complicatedStructureAndPointer/C6_codes_4.png](./06complicatedStructureAndPointer/C6_codes_4.png)
+
+26 行编译不过 expected an expression ?
+
+![./06complicatedStructureAndPointer/C6_codes_5.png](./06complicatedStructureAndPointer/C6_codes_5.png)
