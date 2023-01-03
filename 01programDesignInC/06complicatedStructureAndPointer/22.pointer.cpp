@@ -55,10 +55,11 @@ int main(int argc, char *argv[], char *env[]) {
 	// 所以会报错
     // printf("%s\n", (char *)(&num2 + 1));
 	printf("%s", (char *)(&num2 + 1));
-	// 为什么编译不过？
-	// printf("%ld\n", offset(struct Data, a));
-	// printf("%ld\n", offset(struct Data, b));
-	// printf("%ld\n", offset(struct Data, c));
+	// 为什么有 warning？
+	// g++ 可以编译. 问题可能出现在 clang warning
+	printf("%ld\n", offset(struct Data, a));
+	printf("%ld\n", offset(struct Data, b));
+	printf("%ld\n", offset(struct Data, c));
 	printf("%ld\n", offset2(struct Data, a));
 	printf("%ld\n", offset2(struct Data, b));
 	printf("%ld\n", offset2(struct Data, c));
