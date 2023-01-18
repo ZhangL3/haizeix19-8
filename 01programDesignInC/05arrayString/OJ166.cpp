@@ -56,8 +56,9 @@ int main() {
 
 	insertStr(A, N, B);
 	printf("%s\n", A);
-	// 为什么这个不对？
+	// 为什么这个不对？不一定是插入的 xxx 里的
 	// printf("%lu\n", strlen(A) - (N - 1) - strlen(B) + 1);
+	// strrchr: Locate last occurrence of character in string
 	for (int i = strlen(A) - 1, cnt = 1; i > 0; i--, cnt++) {
 		if (A[i] == 'x') {
 			printf("%d\n", cnt);
