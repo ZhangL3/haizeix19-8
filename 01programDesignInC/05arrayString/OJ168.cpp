@@ -62,9 +62,11 @@ int main() {
 		scanf("%s", name);
 		// convert name and store it into array
 		names[i][0] = (char)toupper(name[0]);
-		for (int j = 1; j < strlen(name); j++) {
+		// +1 for '\0'
+		for (int j = 1; j < strlen(name) + 1; j++) {
 			names[i][j] = (char)tolower(name[j]);
 		}
+
 		if (k > 0) {
 			// compare string, if smaller, swap the pointer
 			c = compareStr(ptrNames[k], ptrNames[k - 1]);
