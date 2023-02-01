@@ -1,3 +1,9 @@
+// 为了避免一次编译过程中的重复包含，增加一个条件判断
+#ifndef _HEADER1_H
+#define _HEADER1_H
+
+#include <stdio.h>
+
 void funcA(int);
 void funcB(int);
 
@@ -14,3 +20,5 @@ void funcB(int x) {
 	funcA(x - 1);
 	return ;
 }
+
+#endif

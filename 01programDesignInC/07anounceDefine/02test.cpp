@@ -3,9 +3,11 @@
 // 头文件里一般放声明，源文件里放定义
 #include <stdio.h>
 #include <stdlib.h>
-#include "02test.h"
+#include "02test_header1.h"
+#include "02test_header2.h"
 
 int main() {
 	funcA(5);
+	funcC(6, 7);
 	return 0;
 }
