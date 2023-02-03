@@ -778,3 +778,18 @@ int main (int argc, char *argv[], char **env);
 
 	g++ -I./module/include -L./module/lib test.cpp -lhaizei
 	```
+
+## 简易测试框架开发
+
+### 测试框架项目背景
+
+- 安装 gtest
+	- make 结束后，拷贝静态链接库(lib)和头文件(include)到项目文件夹
+- 运行测试用例
+
+	```sh
+	# -L: 链接库
+	# -lgtest: 找 libgtest.a 文件
+	g++ -L ./lib main.cpp -lgtest
+	./a.out
+	```
