@@ -746,3 +746,50 @@ int main (int argc, char *argv[], char **env);
 26 行编译不过 expected an expression ?
 
 ![./06complicatedStructureAndPointer/C6_codes_5.png](./06complicatedStructureAndPointer/C6_codes_5.png)
+
+## 声明与定义
+
+- 声明与定义必须分开，声明放头文件，定义放源文件
+	- <> 在系统文件包含的路径中进行查找
+	- "" 当前目录作为基准查找
+		- 自己写的也可以包含在系统文件路径中 -I./
+
+			```sh
+			g++ -c -I./ test.cpp
+			```
+- 静态链接库
+	- 提供模块时，给一组头文件(include)和一个静态链接库（定义打成包, lib）
+
+	```sh
+	#a.out
+	#module
+	#	include
+	#		*.h
+	#	src
+	#		*.cpp
+	#		*.o
+	#	lib
+	#		libhaizei.a
+	#test.cpp
+	g++ -c -I../include header1.cc
+	g++ -c -I../include header2.cc
+	g++ -c -I../include header3.cc
+	ar -r libhaizei.a header1.o header.o header.o
+
+	g++ -I./module/include -L./module/lib test.cpp -lhaizei
+	```
+
+## 简易测试框架开发
+
+### 测试框架项目背景
+
+- 安装 gtest
+	- make 结束后，拷贝静态链接库(lib)和头文件(include)到项目文件夹
+- 运行测试用例
+
+	```sh
+	# -L: 链接库
+	# -lgtest: 找 libgtest.a 文件
+	g++ -L ./lib main.cpp -lgtest
+	./a.out
+	```
