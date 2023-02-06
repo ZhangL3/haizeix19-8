@@ -32,11 +32,13 @@ int main() {
 	}
 	printf("\n");
 	// test end
+	// fflush(stdin);
 	for (int i = 0; i < searchSize; i++) {
 		printf("i = %d\n", i);
 		scanf("%d", searchNums + i);
 		printf("%d", searchNums[i]);
 	}
+	fflush(stdout);
 
 	// for (int i = 0; i < searchSize; i++) {
 	// 	printf("%d", searchNums[i]);
