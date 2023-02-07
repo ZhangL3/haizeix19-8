@@ -5,12 +5,16 @@ int binarSearch(int target, int *nums, int size) {
 	while (
 		nums[midInd] != target
 	) {
-		if (target < nums[(startInd + endInd) / 2]) {
-			startInd = midInd;
-		} else {
+		if (target < nums[midInd]) {
 			endInd = midInd;
+		} else {
+			startInd = midInd;
 		}
-		if (startInd >= endInd) return 0;
+		if (startInd >= endInd - 1) {
+			if (target == nums[startInd]) return startInd + 1;
+			else if (target == nums[endInd]) return endInd + 1;
+			else return 0;
+		}
 		midInd = (startInd + endInd) / 2;
 	}
 	return midInd + 1;
@@ -22,30 +26,17 @@ int main() {
 	int searchNums[1000005];
 
 	scanf("%d %d", &size, &searchSize);
-	printf("size = %d, searchSize = %d\n", size, searchSize);
 	for (int i = 0; i < size; i++) {
 		scanf("%d", nums + i);
 	}
-	// test
-	for (int i = 0; i < size; i++) {
-		printf("%d ", nums[i]);
-	}
-	printf("\n");
-	// test end
-	// fflush(stdin);
+
 	for (int i = 0; i < searchSize; i++) {
-		printf("i = %d\n", i);
 		scanf("%d", searchNums + i);
-		printf("%d", searchNums[i]);
 	}
-	fflush(stdout);
+	// fflush(stdout);
 
-	// for (int i = 0; i < searchSize; i++) {
-	// 	printf("%d", searchNums[i]);
-	// }
-	// printf("\n");
-
-	printf("%d\n", binarSearch(searchNums[0], nums, size));
-
-
+	for (int i = 0; i < searchSize - 1; i++) {
+		printf("%d ", binarSearch(searchNums[i], nums, size));
+	}
+	printf("%d\n", binarSearch(searchNums[searchSize - 1], nums, size));
 }
