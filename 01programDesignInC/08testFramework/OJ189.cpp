@@ -23,7 +23,7 @@ int binarSearch(int target, int *nums, int size) {
 int main() {
 	int size, searchSize;
 	int nums[1000005];
-	int searchNums[1000005];
+	int targetNum;
 
 	scanf("%d %d", &size, &searchSize);
 	for (int i = 0; i < size; i++) {
@@ -31,12 +31,9 @@ int main() {
 	}
 
 	for (int i = 0; i < searchSize; i++) {
-		scanf("%d", searchNums + i);
+		scanf("%d", &targetNum);
+		if (i < searchSize - 1) printf("%d ", binarSearch(targetNum, nums, size));
+		else printf("%d\n", binarSearch(targetNum, nums, size));
 	}
 	// fflush(stdout);
-
-	for (int i = 0; i < searchSize - 1; i++) {
-		printf("%d ", binarSearch(searchNums[i], nums, size));
-	}
-	printf("%d\n", binarSearch(searchNums[searchSize - 1], nums, size));
 }
