@@ -6,15 +6,11 @@ int binarSearch(int target, int *nums, int size) {
 		nums[midInd] != target
 	) {
 		if (target < nums[midInd]) {
-			endInd = midInd;
+			endInd = midInd - 1;
 		} else {
-			startInd = midInd;
+			startInd = midInd + 1;
 		}
-		if (startInd >= endInd - 1) {
-			if (target == nums[startInd]) return startInd + 1;
-			else if (target == nums[endInd]) return endInd + 1;
-			else return 0;
-		}
+		if (startInd > endInd) return 0;
 		midInd = (startInd + endInd) / 2;
 	}
 	return midInd + 1;
@@ -35,5 +31,4 @@ int main() {
 		if (i < searchSize - 1) printf("%d ", binarSearch(targetNum, nums, size));
 		else printf("%d\n", binarSearch(targetNum, nums, size));
 	}
-	// fflush(stdout);
 }
