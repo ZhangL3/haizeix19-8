@@ -14,7 +14,7 @@ void markPrimeNumbers(int *prime, int size) {
 
 int main() {
 	int min, max;
-	int prime[100005] = {0};
+	int prime[1000005] = {0};
 	scanf("%d %d", &max, &min);
 	// printf("max = %d, min = %d\n", max, min);
 	markPrimeNumbers(prime, max + 5);
