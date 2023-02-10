@@ -31,8 +31,9 @@ int main() {
 	scanf("%d", &n);
 	markNotPrime(notPrimeNums, n);
 	for (int i = 2; i < n / 2 + 1; i++) {
-		if (notPrimeNums[i]) continue;
-		if (binarySearch(n - i, n / 2, n, notPrimeNums)) cnt++;
+		if (notPrimeNums[i] || notPrimeNums[n - i]) continue;
+		cnt++;
+		// if (binarySearch(n - i, n / 2, n, notPrimeNums)) cnt++;
 		// printf("i = %d: %d\n", i, binarySearch(n - i, n / 2, n, notPrimeNums));
 	}
 	printf("%d\n", cnt);
