@@ -5,7 +5,7 @@ int binarySearch(int target, int *arr, int l, int r) {
 	while (l <= r) {
 		mid = (l + r) / 2;
 		if (target == arr[mid]) return mid;
-		if (target < mid) r = mid - 1;
+		if (target < arr[mid]) r = mid - 1;
 		else l = mid + 1;
 	}
 	return -1;
@@ -20,8 +20,8 @@ int main() {
 	}
 	scanf("%d", &s);
 	for (int i = 0; i < n; i++) {
-		ans = binarySearch(s - a[i], a, 0, n - 1);
-		printf("ans = %d\n", ans);
+		ans = binarySearch(s - a[i], a, i + 1, n - 1);
+		// printf("ans = %d\n", ans);
 		if (ans >= 0) {
 			printf("Yes\n");
 			return 0;
