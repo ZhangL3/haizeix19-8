@@ -793,3 +793,7 @@ int main (int argc, char *argv[], char **env);
 	g++ -L ./lib main.cpp -lgtest
 	./a.out
 	```
+
+### 测试框架设计
+
+![./08testFramework/test_framework_design_1.png](./08testFramework/test_framework_design_1.png)
