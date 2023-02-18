@@ -16,6 +16,7 @@ int RUN_ALL_TESTS() {
 
 void add_function(TestFuncT func, const char *str) {
   func_arr[func_cnt].func = func;
+  // strdup 拷贝字符串
   func_arr[func_cnt].str = strdup(str);
   func_cnt++;
   return ;
