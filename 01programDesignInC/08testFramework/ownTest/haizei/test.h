@@ -4,16 +4,18 @@
 // 函数名不能写死了，因为可能有多个测试用例 TEST，函数名不能重复
 // ## 用于粘连两个传入的符号
 // 带有 constructor 属性的函数，会先于主函数去执行
+
+// 这个函数 (add) 会被先于主函数执行, 因为被标记为 constructor
+// 添加函数指针到 list，让 RUN_ALL_TESTS 知道都有哪些测试用例
+
+// add_function(Name(a, b), Str(Name(a, b))); 尝试改写
 #define TEST(a, b) \
 void a##_haizei_##b(); \
 __attribute__((constructor)) \
-// 这个函数会被先于主函数执行
-// 添加函数指针到 list，让 RUN_ALL_TESTS 知道都有哪些测试用例
 void add##_haizei_##a##_haizei_##b() { \
   add_function(a##_haizei_##b, #a "_haize_" #b); \
-  // add_function(Name(a, b), Str(Name(a, b)));
 } \
-void a##_haizei__##b()
+void a##_haizei_##b()
 
 // # 替换传入的符号
 #define EXPECT_EQ(a, b) printf("%s == %s ? %s\n", #a, #b, (a) == (b) ? "True" : "False" );
