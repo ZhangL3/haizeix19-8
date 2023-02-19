@@ -3,7 +3,7 @@
 
 #define COLOR(a, b) "\033[" #b "m" a "\033[0m"
 
-#define GREE(a) COLOR(a, 32)
+#define GREEN(a) COLOR(a, 32)
 #define RED(a) COLOR(a, 31)
 #define BLUE(a) COLOR(a, 34)
 #define YELLOW(a) COLOR(a, 33)
