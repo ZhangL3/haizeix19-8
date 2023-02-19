@@ -14,5 +14,8 @@ haizei/test.o: haizei/test.h haizei/test.cc
 # 让 test.o 生成在 haizei 目录里
 		g++ -I./ -o haizei/test.o -c haizei/test.cc
 
+run: all
+	./bin/haizei
+
 clean:
-		rm -rf ./a.out *.o
+		rm -rf ./a.out *.o ./haizei/test.o ./bin/haizei

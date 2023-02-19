@@ -1,6 +1,13 @@
 #ifndef _TEST_H
 #define _TEST_H
 
+#define COLOR(a, b) "\033[" #b "m" a "\033[0m"
+
+#define GREE(a) COLOR(a, 32)
+#define RED(a) COLOR(a, 31)
+#define BLUE(a) COLOR(a, 34)
+#define YELLOW(a) COLOR(a, 33)
+
 // 函数名不能写死了，因为可能有多个测试用例 TEST，函数名不能重复
 // ## 用于粘连两个传入的符号，不做替换
 // 带有 constructor 属性的函数，会先于主函数去执行
@@ -18,7 +25,7 @@ void add##_haizei_##a##_haizei_##b() { \
 void a##_haizei_##b()
 
 #define Name(a, b) a##_haizei_##b
-#define Str(a, b) #a"_haize_"#b
+#define Str(a, b) #a"."#b
 
 // #define Str(a, b) #a "_haize_" #b
 
