@@ -8,16 +8,19 @@
 // 这个函数 (add) 会被先于主函数执行, 因为被标记为 constructor
 // 添加函数指针到 list，让 RUN_ALL_TESTS 知道都有哪些测试用例
 
-// add_function(Name(a, b), Str(Name(a, b))); 尝试改写, Name 和 Str 是两个宏
-
 // void a##_haizei_##b() 后面是 TEST(a, b) 后的大括号
 #define TEST(a, b) \
 void a##_haizei_##b(); \
 __attribute__((constructor)) \
 void add##_haizei_##a##_haizei_##b() { \
-  add_function(a##_haizei_##b, #a "_haize_" #b); \
+  add_function(Name(a, b), Str(a, b)); \
 } \
 void a##_haizei_##b()
+
+#define Name(a, b) a##_haizei_##b
+#define Str(a, b) #a"_haize_"#b
+
+// #define Str(a, b) #a "_haize_" #b
 
 // # 替换传入的符号
 #define EXPECT_EQ(a, b) printf("%s == %s ? %s\n", #a, #b, (a) == (b) ? "True" : "False" );
