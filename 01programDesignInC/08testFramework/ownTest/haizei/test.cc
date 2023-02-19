@@ -8,7 +8,7 @@ Function func_arr[100];
 int RUN_ALL_TESTS() {
   for (int i = 0; i < func_cnt; i++) {
     // \033[32m...\033[0m 显示绿色
-    printf(GREEN("[====Run====]") RED(" %s\n"), func_arr[i].str);
+    printf(GREEN("[====Run====]") RED_HL(" %s\n"), func_arr[i].str);
     func_arr[i].func();
     printf("Run End\n");
   }

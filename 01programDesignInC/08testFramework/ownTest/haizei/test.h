@@ -1,12 +1,17 @@
 #ifndef _TEST_H
 #define _TEST_H
 
-#define COLOR(a, b) "\033[" #b "m" a "\033[0m"
+#define COLOR(a, b) "\033[0;" #b "m" a "\033[0m"
+#define COLOR_HL(a, b) "\033[1;" #b "m" a "\033[0m"
 
 #define GREEN(a) COLOR(a, 32)
 #define RED(a) COLOR(a, 31)
 #define BLUE(a) COLOR(a, 34)
-#define YELLOW(a) COLOR(a, 33)
+#define YELLOW(a) COLOR_HL(a, 33)
+#define GREEN_HL(a) COLOR_HL(a, 32)
+#define RED_HL(a) COLOR_HL(a, 31)
+#define BLUE_HL(a) COLOR_HL(a, 34)
+#define YELLOW_HL(a) COLOR_HL(a, 33)
 
 // 函数名不能写死了，因为可能有多个测试用例 TEST，函数名不能重复
 // ## 用于粘连两个传入的符号，不做替换
