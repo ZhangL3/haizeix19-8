@@ -34,8 +34,25 @@ void a##_haizei_##b()
 
 // #define Str(a, b) #a "_haize_" #b
 
+#define EXPECT(a, b, comp) { \
+  printf(GREEN("[-----------]"), #a #comp #b); \
+  printf(" %s\n", (a) comp (b) ? GREEN_HL("TRUEE") : RED_HL("FALSE")); \
+}
+
+# define EXPECT_EQ(a, b) EXPECT(a, b, ==)
+# define EXPECT_LT(a, b) EXPECT(a, b, <)
+# define EXPECT_LE(a, b) EXPECT(a, b, <=)
+# define EXPECT_GT(a, b) EXPECT(a, b, >)
+# define EXPECT_GE(a, b) EXPECT(a, b, >=)
+
 // # 替换传入的符号
-#define EXPECT_EQ(a, b) printf("%s == %s ? %s\n", #a, #b, (a) == (b) ? "True" : "False" );
+// #define EXPECT_EQ(a, b) { \
+//   printf("%s == %s ? %s\n", #a, #b, (a) == (b) ? "True" : "False" ); \
+// }
+
+// #define EXPECT_LT(a, b) { \
+//   printf("%s == %s ? %s\n", #a, #b, (a) < (b) ? "True" : "False" ); \
+// }
 
 typedef void (*TestFuncT)();
 
