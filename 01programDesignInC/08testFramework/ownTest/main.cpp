@@ -16,8 +16,8 @@ TEST(testFunc, add) {
 
 TEST(testFunc, add2) {
 	EXPECT_EQ(add(5, 3), 8);
-	EXPECT_EQ(add(5, 3), 9);
-	EXPECT_EQ(add(6, 7), 15);
+	EXPECT_EQ(add(5, 3), 8);
+	EXPECT_EQ(add(6, 7), 13);
 }
 
 int main(int argc, char *argv[]) {

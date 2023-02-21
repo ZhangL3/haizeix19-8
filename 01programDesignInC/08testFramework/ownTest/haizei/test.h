@@ -32,11 +32,14 @@ void a##_haizei_##b()
 #define Name(a, b) a##_haizei_##b
 #define Str(a, b) #a"."#b
 
-// #define Str(a, b) #a "_haize_" #b
+// 用 __typeof 可以避免 a 是 a++ 被多次加的情况
 
 #define EXPECT(a, b, comp) { \
   printf(GREEN("[-----------] ") #a " " #comp " " #b); \
-  printf(" %s\n", (a) comp (b) ? GREEN_HL("TRUE") : RED_HL("FALSE")); \
+  __typeof(a) _a = (a), _b = (b); \
+  haizei_test_info.total += 1; \
+  if (_a comp _b) haizei_test_info.success += 1; \
+  printf(" %s\n", (_a) comp (_b) ? GREEN_HL("TRUE") : RED_HL("FALSE")); \
 }
 
 # define EXPECT_EQ(a, b) EXPECT(a, b, ==)
@@ -61,9 +64,19 @@ struct Function {
   TestFuncT func;
   const char *str;
 };
+//
+   
+// 定义全局变量，储存测试信息
+struct FunctionInfo {
+  int total, success;
+};
+// 声明外部变量，编译的时候知道这个变量的存在，不会报错，链接的时候肯定能找到
+// 原始声明在 test.cc 里
+extern struct FunctionInfo haizei_test_info;
+
 
 int RUN_ALL_TESTS();
-// 第一个参数是函数指针
+// 第一个参数是函数指针   
 // 第二个参数是字符串，函数名
 void add_function(TestFuncT, const char *);
 
