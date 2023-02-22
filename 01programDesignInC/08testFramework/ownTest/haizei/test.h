@@ -29,16 +29,37 @@ void add##_haizei_##a##_haizei_##b() { \
 } \
 void a##_haizei_##b()
 
+// 泛型宏
+#define TYPE_STR(a) _Generic((a), \
+  int : "%d", \
+  double : "%lf", \
+  float : "%f", \
+  long long : "%lld" \
+)
+
+#define P(a, color) { \
+  char frm[1000]; \
+  sprintf(frm, color("%s"), TYPE_STR(a)); \
+  printf(frm, a); \
+}
+
 #define Name(a, b) a##_haizei_##b
 #define Str(a, b) #a"."#b
 
 // 用 __typeof 可以避免 a 是 a++ 被多次加的情况
 
 #define EXPECT(a, b, comp) { \
-  printf(GREEN("[-----------] ") #a " " #comp " " #b); \
   __typeof(a) _a = (a), _b = (b); \
   haizei_test_info.total += 1; \
   if (_a comp _b) haizei_test_info.success += 1; \
+  else { \
+    printf("\n"); \
+    printf(YELLOW_HL("\t%s:%d: Failure\n"), __FILE__, __LINE__); \
+    printf(YELLOW_HL("\t\texpect" #a " " #comp " " #b " actual : ")); \
+    P(_a, YELLOW_HL); \
+    printf("\n"); \
+  } \
+  printf(GREEN("[-----------] ") #a " " #comp " " #b); \
   printf(" %s\n", (_a) comp (_b) ? GREEN_HL("TRUE") : RED_HL("FALSE")); \
 }
 
