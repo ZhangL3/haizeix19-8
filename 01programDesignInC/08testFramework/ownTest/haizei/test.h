@@ -49,7 +49,8 @@ void a##_haizei_##b()
 // 用 __typeof 可以避免 a 是 a++ 被多次加的情况
 
 #define EXPECT(a, b, comp) { \
-  __typeof(a) _a = (a), _b = (b); \
+  __typeof(a) _a = (a); \
+  __typeof(b) _b = (b); \
   haizei_test_info.total += 1; \
   if (_a comp _b) haizei_test_info.success += 1; \
   else { \
