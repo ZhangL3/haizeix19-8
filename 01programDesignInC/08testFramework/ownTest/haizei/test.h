@@ -34,7 +34,8 @@ void a##_haizei_##b()
   int : "%d", \
   double : "%lf", \
   float : "%f", \
-  long long : "%lld" \
+  long long : "%lld", \
+  const char * : "%s" \
 )
 
 #define P(a, color) { \
@@ -58,7 +59,9 @@ void a##_haizei_##b()
     printf(YELLOW_HL("\t%s:%d: Failure\n"), __FILE__, __LINE__); \
     printf(YELLOW_HL("\t\texpect" #a " " #comp " " #b " actual : ")); \
     P(_a, YELLOW_HL); \
-    printf("\n"); \
+    P(" vs ", YELLOW_HL); \
+    P(_b, YELLOW_HL); \
+    printf("\n\n"); \
   } \
   printf(GREEN("[-----------] ") #a " " #comp " " #b); \
   printf(" %s\n", (_a) comp (_b) ? GREEN_HL("TRUE") : RED_HL("FALSE")); \
