@@ -38,16 +38,34 @@ void a##_haizei_##b()
   const char * : "%s" \
 )
 
-#define P(a, color) { \
-  char frm[1000]; \
-  sprintf(frm, color("%s"), TYPE_STR(a)); \
-  printf(frm, a); \
-}
+// #define P(a, color) { \
+//   char frm[1000]; \
+//   sprintf(frm, color("%s"), TYPE_STR(a)); \
+//   printf(frm, a); \
+// }
 
 #define Name(a, b) a##_haizei_##b
 #define Str(a, b) #a"."#b
 
 // 用 __typeof 可以避免 a 是 a++ 被多次加的情况
+
+// #define EXPECT(a, b, comp) { \
+//   __typeof(a) _a = (a); \
+//   __typeof(b) _b = (b); \
+//   haizei_test_info.total += 1; \
+//   if (_a comp _b) haizei_test_info.success += 1; \
+//   else { \
+//     printf("\n"); \
+//     printf(YELLOW_HL("\t%s:%d: Failure\n"), __FILE__, __LINE__); \
+//     printf(YELLOW_HL("\t\texpect" #a " " #comp " " #b " actual : ")); \
+//     P(_a, YELLOW_HL); \
+//     P(" vs ", YELLOW_HL); \
+//     P(_b, YELLOW_HL); \
+//     printf("\n\n"); \
+//   } \
+//   printf(GREEN("[-----------] ") #a " " #comp " " #b); \
+//   printf(" %s\n", (_a) comp (_b) ? GREEN_HL("TRUE") : RED_HL("FALSE")); \
+// }
 
 #define EXPECT(a, b, comp) { \
   __typeof(a) _a = (a); \
@@ -57,10 +75,6 @@ void a##_haizei_##b()
   else { \
     printf("\n"); \
     printf(YELLOW_HL("\t%s:%d: Failure\n"), __FILE__, __LINE__); \
-    printf(YELLOW_HL("\t\texpect" #a " " #comp " " #b " actual : ")); \
-    P(_a, YELLOW_HL); \
-    P(" vs ", YELLOW_HL); \
-    P(_b, YELLOW_HL); \
     printf("\n\n"); \
   } \
   printf(GREEN("[-----------] ") #a " " #comp " " #b); \
