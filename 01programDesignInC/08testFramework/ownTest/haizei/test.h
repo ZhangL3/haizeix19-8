@@ -75,7 +75,7 @@ void a##_haizei_##b()
   else { \
     printf("\n"); \
     printf(YELLOW_HL("\t%s:%d: Failure\n"), __FILE__, __LINE__); \
-    printf("\n\n"); \
+    printf("\n"); \
   } \
   printf(GREEN("[-----------] ") #a " " #comp " " #b); \
   printf(" %s\n", (_a) comp (_b) ? GREEN_HL("TRUE") : RED_HL("FALSE")); \
