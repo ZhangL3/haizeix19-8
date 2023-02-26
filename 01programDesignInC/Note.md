@@ -797,3 +797,23 @@ int main (int argc, char *argv[], char **env);
 ### 测试框架设计
 
 ![./08testFramework/test_framework_design_1.png](./08testFramework/test_framework_design_1.png)
+
+
+## 其他
+
+### 内存中的五大区域
+
+- 栈 stack
+  - 是专门用来储存局部变量的。所有的局部变量都是生命在栈区域中的。
+- 堆 heap
+  - 允许程序员手动申请空间
+- BSS 段
+  - 是用来储存未初始化的局部变量和静态变量。
+  - 声明一个全局变量，如果我们没有初始化。
+  - 在程序运行的最开始的时候，这个全局变量是没有初始化的。
+- 数据段 / 常量区
+  - 用来储存已经初始花花的全局变量、静态变量，还有常数数据
+- 代码段
+  - 用来储存程序的代码 / 指令
+
+  ### malloc(), calloc(), realloc() 向堆区申请字节
