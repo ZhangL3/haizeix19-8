@@ -1,18 +1,23 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <haizei/test.h>
+#include <haizei/linklist.h>
 
 int func_cnt = 0;
-Function func_arr[100];
+struct Function func_head, *func_tail = &func_head;
 struct FunctionInfo haizei_test_info;
+// 链表节点的头指针
+struct LinkNode *head = NULL;
 
 int RUN_ALL_TESTS() {
-  for (int i = 0; i < func_cnt; i++) {
+  for (struct LinkNode *p = func_head.p.next; p; p = p->next) {
+    struct Function *func = Head(p, struct Function, p);
     // \033[32m...\033[0m 显示绿色
-    printf(GREEN("[====Run====]") RED_HL(" %s\n"), func_arr[i].str);
+    printf(GREEN("[====Run====]") RED_HL(" %s\n"), func->str);
     haizei_test_info.total = haizei_test_info.success = 0;
-    func_arr[i].func();
+    func->run();
     double rate = 100.0 * haizei_test_info.success / haizei_test_info.total;
     // 总共 6 位，小数点儿后2 位
     printf(GREEN("[  "));
@@ -33,9 +38,12 @@ int RUN_ALL_TESTS() {
 }
 
 void add_function(TestFuncT func, const char *str) {
-  func_arr[func_cnt].func = func;
+  struct Function *temp = (struct Function *)calloc(1, sizeof(struct Function));
+  temp->run = func;
   // strdup 拷贝字符串
-  func_arr[func_cnt].str = strdup(str);
-  func_cnt++;
+  temp->str = strdup(str);
+  // 添加 temp 节点到链表的尾部
+  func_tail->p.next = &(temp->p);
+  func_tail = temp;
   return ;
 }

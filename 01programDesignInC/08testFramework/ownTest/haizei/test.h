@@ -1,6 +1,8 @@
 #ifndef _TEST_H
 #define _TEST_H
 
+#include <haizei/linklist.h>
+
 #define COLOR(a, b) "\033[0;" #b "m" a "\033[0m"
 #define COLOR_HL(a, b) "\033[1;" #b "m" a "\033[0m"
 
@@ -100,10 +102,10 @@ void a##_haizei_##b()
 typedef void (*TestFuncT)();
 
 struct Function {
-  TestFuncT func;
+  TestFuncT run;
   const char *str;
+  struct LinkNode p;
 };
-//
    
 // 定义全局变量，储存测试信息
 struct FunctionInfo {
