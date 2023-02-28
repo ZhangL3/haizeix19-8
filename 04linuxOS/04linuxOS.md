@@ -4,4 +4,7 @@
 
 ### 认识 shell
 
-- TERMINAL, CONSOLE, SHELL
+- CONSOLE, TERMINAL, SHELL
+  - console: 带 Terminal 的桌子，工位
+  - terminal: 电子设备
+  - shell: 人机接口
