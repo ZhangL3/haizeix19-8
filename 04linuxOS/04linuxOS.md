@@ -1,5 +1,17 @@
 # Linux 操作系统
 
+## prepare
+
+### openSSH (https://www.youtube.com/watch?v=YS5Zh7KExvE)
+  - ssh zhangl@10.10.0.214
+  - cd .ssh
+    - id_rsa
+    - id_rsa.pub
+    - known_host: store the public key from the known hosts
+    - known_host.old
+
+
+
 ## 基础知识
 
 ### 认识 shell
