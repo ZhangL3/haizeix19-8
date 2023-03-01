@@ -33,8 +33,39 @@
     - copy public key to ~/.ssh/authorized_keys in server
     - ssh-copy-id -i ~/.ssh/id_rsa.pub root@172.105.7.26
   - Managing SSH keys
-    - generate key for spefic server
+    - generate key for specific server
       - ssh-keygen -t ed25519 -C "acme"
+        - -t: type
+      - ssh -i ~/.ssh/acme_id_ed25519 root@172.105.7.26
+      - add private key to key agent to store passphrase
+        - ssh-add ~/.ssh/acme_id_ed25519
+  - Configuring OpenSSH
+    - tool: openssh-server
+    - systemctl status sshd
+    - systemctl restart sshd
+    - systemctl stop sshd
+      - connected ssh client will not be terminated, but after the disconnection, it is not possible to connect back!
+    - systemctl enable ssh
+      - start sshd by start the machine
+    - config in server
+      - ls /etc/ssh/
+        - host keys is to be as fingerprint for client
+      - ssh_config
+        - for global client
+      - sshd_config
+        - config service of server
+          - change port
+          - disable passwordAuthentication
+            - can login only with key
+  - Troubleshooting OpenSSH
+    - permission
+      - ls -la | grep .ssh
+      - cd .ssh
+      - ll
+      - id_rsa must be readable
+    - live logs
+      - Journalctl -fu ssh
+
 
 
 ## 基础知识
