@@ -5,6 +5,7 @@
 ### openSSH (https://www.youtube.com/watch?v=YS5Zh7KExvE)
   - connect:
     - ssh zhangl@10.10.0.214
+       - -v: verbose
   - disconnect:
     - ctr + d
   - info:
@@ -29,10 +30,11 @@
         ```
   - Using public/private keys
     - ssh-keygen
-    - copy public key to target konwn_host
+    - copy public key to ~/.ssh/authorized_keys in server
     - ssh-copy-id -i ~/.ssh/id_rsa.pub root@172.105.7.26
   - Managing SSH keys
-
+    - generate key for spefic server
+      - ssh-keygen -t ed25519 -C "acme"
 
 
 ## 基础知识
