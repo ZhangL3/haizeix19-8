@@ -3,12 +3,35 @@
 ## prepare
 
 ### openSSH (https://www.youtube.com/watch?v=YS5Zh7KExvE)
-  - ssh zhangl@10.10.0.214
-  - cd .ssh
-    - id_rsa
-    - id_rsa.pub
-    - known_host: store the public key from the known hosts
-    - known_host.old
+  - connect:
+    - ssh zhangl@10.10.0.214
+  - disconnect:
+    - ctr + d
+  - info:
+    - cd .ssh
+      - id_rsa
+      - id_rsa.pub
+      - known_host: store the public key from the known hosts
+  - logfile of ssh connections
+    - tail -f /var/log/auth.log
+  - Configuring the Openssl Client
+    - create the file 'config' under ~/.ssh/
+    - ssh lltv
+
+        ```
+        Host lltv
+          Hostname 172.105.7.26
+          Port 22
+          User root
+        
+        Host server2
+        ...
+        ```
+  - Using public/private keys
+    - ssh-keygen
+    - copy public key to target konwn_host
+    - ssh-copy-id -i ~/.ssh/id_rsa.pub root@172.105.7.26
+  - Managing SSH keys
 
 
 
