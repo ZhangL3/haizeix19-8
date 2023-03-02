@@ -84,10 +84,15 @@
       - /etc/bash.profile
         - 用户 session
       - /etc/bash.bash.logout
+        - 退出时的操作
   - Individual(persional) config and Setup
     - bash
       - ~/.bashrc
+        - 系统起来先读配置文件
       - ~/.bash_profile
+        - 再读用户设置
       - ~/.bash_logout
       - ~/.input
   - 作业，写一个 bash 脚本，实现每次登出的时候显示在线了所少时间
+    - $BHLVL
+      - bash 的层级，系统初始化为 1， console 打开的为 2，再执行 bash 时，level 继续提升
