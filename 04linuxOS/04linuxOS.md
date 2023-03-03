@@ -88,6 +88,9 @@
     - bash
       - ~/.bashrc
       - ~/.bash_profile
+        - 用户登陆时执行
       - ~/.bash_logout
       - ~/.input
   - 作业，写一个 bash 脚本，实现每次登出的时候显示在线了所少时间
+    - shell 是一个命令解释器，赋值时不能有空格
+      - Time = \`date +%s\` 相当于 执行 Time 命令，参数是 = 和 \`date +%s\`
