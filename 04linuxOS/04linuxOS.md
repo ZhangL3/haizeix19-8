@@ -115,3 +115,20 @@
     echo "Login for ${Time} min"
     ```
       
+### SHELL 编程基础
+
+- 第一个 SHELL 脚步
+
+```sh
+#!/bin/bash
+echo 'Hello HaiZei' # 这是注释
+```
+- 执行
+```sh
+# bash 是执行程序，a.sh 是标准输入
+bash a.sh
+
+# a.sh 就是执行程序
+chmode a+x a.sh
+a.sh
+```
