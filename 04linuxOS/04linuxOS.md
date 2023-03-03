@@ -84,13 +84,18 @@
       - /etc/bash.profile
         - 用户 session
       - /etc/bash.bash.logout
+        - 退出时的操作
   - Individual(persional) config and Setup
     - bash
       - ~/.bashrc
+        - 系统起来先读配置文件
       - ~/.bash_profile
+        - 再读用户设置
         - 用户登陆时执行
       - ~/.bash_logout
       - ~/.input
   - 作业，写一个 bash 脚本，实现每次登出的时候显示在线了所少时间
+    - $BHLVL
+      - bash 的层级，系统初始化为 1， console 打开的为 2，再执行 bash 时，level 继续提升
     - shell 是一个命令解释器，赋值时不能有空格
       - Time = \`date +%s\` 相当于 执行 Time 命令，参数是 = 和 \`date +%s\`
