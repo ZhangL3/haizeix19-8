@@ -99,3 +99,19 @@
       - bash 的层级，系统初始化为 1， console 打开的为 2，再执行 bash 时，level 继续提升
     - shell 是一个命令解释器，赋值时不能有空格
       - Time = \`date +%s\` 相当于 执行 Time 命令，参数是 = 和 \`date +%s\`
+
+    ```sh
+    # .bash_profile
+    echo save LoginTime
+    LoginTime=`date +%s`
+    echo ${LoginTime}
+
+    # .bash_logout
+    NowTime=`date +%s`
+    echo LogoutTime
+    echo ${NowTime}
+    TimeSec=$[ ${NowTime} - ${LoginTime} ]
+    Time=$[ ${TimeSec} / 60 ]
+    echo "Login for ${Time} min"
+    ```
+      
