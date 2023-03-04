@@ -189,3 +189,64 @@ local a=12
   - printf
     - printf "Hello %s, This is Haizei\n" "Small A"
 #### 函数
+- 声明定义和调用
+
+  ```sh
+  #!/bin/bash
+
+  # 三种写法都可以
+
+  function _printf_ {
+    echo $1
+    return
+  }
+
+  # 没有任何的形参
+  _printf_() {
+    echo $1
+    return
+  }
+
+  function _printf_() {
+    echo $1
+    return
+  }
+
+  # 函数调用
+  _printf_ "Hello Haizei"
+  ```
+- 流程控制
+  - if
+  ```sh
+  # [[test表达式]]: 把里买你的值转换成布尔型
+  # [] 也可以，但是 [[]] 兼容性最好
+  # man test 能判断 string, integer, file 等相关操作
+  # [[ ${A}x = x ]] 判断字符串是否为空
+
+  if [[ condition ]]; then
+    # statements
+  elif [[ condition ]]; then
+    # statements
+  elif [[ condition ]]; then
+    # statements
+  else
+    # statements
+  fi
+  ```
+  - for
+  ```sh
+  for i in words; do
+    #statements
+  done
+
+  for (( i = 0; i < 10; i++ )); do
+    #statements
+  done
+  ```
+  - while
+  ```sh
+  while [[ condition ]]; do
+    #statements
+  done
+  ```
+  - until
