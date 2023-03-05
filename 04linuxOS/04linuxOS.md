@@ -250,3 +250,35 @@ local a=12
   done
   ```
   - until
+  ```sh
+  # 直到 condition return true，都做这个事情
+  until [[ condition ]]; do
+    #statements
+  done
+  ```
+  - case
+  ```sh
+  case word in
+    pattern )
+      ;; # 相当于 break
+  esac
+  ```
+### 数组
+- 声明
+  - declare -a a
+- 赋值
+  - name[subscript]=value
+  - name=(value1 value2 ...)
+```sh
+files=(`ls`)
+echo ${files} # 输出的是第一个元素，类似 C 里的首地址
+echo ${files[0]}
+echo ${files[*]} # *: 输出数组内容
+echo ${files[@]} # @: 输出数组内容
+echo ${#files[@]} # #: 输出元素个数
+echo ${!files[@]} # !: 输出数组下标（有值的）
+files[10001]="HAHAHA" # 数组长度不定长
+unset files # 删除整个数组
+unset files[13] # 删除某个值
+files+=(`ls`) # 数组的追加
+```
