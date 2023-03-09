@@ -383,3 +383,95 @@ files+=(`ls`) # 数组的追加
   - 自动同步 ntp，其实不需要设置 -s
 - cal
   - 显示日历
+
+## 目录结构
+
+- tree
+
+  ![./01shellBasic/dirStructure.png](./01shellBasic/dirStructure.png)
+  ![./01shellBasic/dirStructure_2.png](./01shellBasic/dirStructure_2.png)
+
+- 一级目录
+  - /usr: 普通用户级别的文件
+  - /dev: 设备
+  - /etc: 全局配置文件
+  - /home: 所有用户的家目录所在地
+  - /lib: 系统库
+  - /media: 挂载光盘的，基本没有了
+  - /mnt: mount, 挂载目录
+  - /opt: 可选目录
+  - /bin: 二进制文件
+  - /tmp: 临时文件, 777, 重启后会丢失，只有森见的创建者才可以删除
+  - /var: 动态数据目录，logs, cache
+
+```sh
+mkdir 198
+cd 198
+mkdir mnt
+cd mnt
+touch a
+cd ../..
+
+tree
+
+# 挂载远端的 pi 的登录目录树，家目录到当前下的 mnt，允许 mnt 非空
+sshfs -o nonempty pi@pi3:. ./mnt
+# 卸载 ./mnt 上挂载的目录树
+umount ./mnt
+
+# 查看目录应用
+df -h
+```
+
+## 文件与目录的操作
+
+- 常用命令
+  - makedir [-pm]
+  - ls [-alhd]
+  - cp [-apdrslu] <sour> <des>
+  - rm [irf <dir_or_file>]
+  - mv [-ifu] <source...> <dest>
+  - dirname
+  - basename
+  - cat [-A]
+  - tac
+  - nl 显示行号的方式输出文件
+  - more
+  - less
+  - head
+  - tail
+- 练习
+  - 如何查看一个文件的第 101 行到 120 行？
+  - man ls | nl -b a -n rz -w 3 > a.log
+  - tail -n +101 ./a.log | head -n 20
+
+## 文件时间与隐藏属性
+
+- 常用命令
+  - OD 二进制文件查看
+- 修改文件时间与新建文件
+  - 文件的三个时间
+    - mtime: 内容数据改动时才更新这个时间
+      - modify
+    - ctime: 文件的权限，属性改动时更新这个时间
+      - chmod
+      - chown
+    - atime: 文件的内容被取用时，更新这个时间
+      - access
+    ```sh
+    ls -l --time=ctime /etc/hostname
+    ```
+- 修改文件时间与新建文件
+  - touch [-acdmt] <file>
+- 文件隐藏属性
+  - chattr [+-=] [ASacdistu] <file_or_dir>
+    - A: 不修改 atime，网站访问被频繁修改，性能考虑，可以关掉
+    - S: 同步写入, 一般是异步，应用程序到内核，内核可能等待一些一起再写入
+    - a: 只增加数据, 一般用在关键日志上
+    - c: 自动压缩，解压，一般不这么做
+    - d: 不会被 dump 程序备份
+    - i: 不能删除，修改，建立链接
+    - s: 文件删除时，直接从磁盘删除
+    - u: 文件删除时，数据内容存在磁盘中, 默认情况
+  - lsattr [-adR] <file_or_dir>
+  
