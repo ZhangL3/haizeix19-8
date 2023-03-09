@@ -474,4 +474,61 @@ df -h
     - s: 文件删除时，直接从磁盘删除
     - u: 文件删除时，数据内容存在磁盘中, 默认情况
   - lsattr [-adR] <file_or_dir>
-  
+
+## 文件的特殊权限
+
+- set_uid
+  - 标识符: s (放在 user x 的位置，如果是 s+x，标记为 s，如果只有 s，标记为 S)
+  - 作用对象: 二进制程序文件，非脚本
+  - 效果: 用户在执行该程序时，获取程序所有者权限
+  ```sh
+  # /etc/shadow 储存加密过的用户密码
+  cat /etc/shadow
+  # permission denied
+
+  # 但是通过 passwd 命令在没有 root 权限的情况下就可以修改密码
+  ls -al `which passwd`
+  # -rwsr-xr-x 1 root root 59976 Nov 24 13:05 /usr/bin/passwd
+  # others 有可执行权限，在执行时 user 的 s 权限临时授予了用户 root 权限
+  ```
+- set_gid
+  - s
+  - 目录和二进制程序文件
+  - 用户在该目录里，有效组变为目录所属组
+  ```sh
+  chmod g+s L3
+  ls -lad L3
+  # drwxrwsr-x 3 zhangl zhangl 4096 Jan 30 12:57 L3
+  chmod o+w L3
+  sudo useradd -m l3zhang
+  sudo passwd l3zhang
+  su - l3zhang
+
+  # switch user to l3zhang
+  cd ~zhangl
+  cd L3
+  touch fileFroml3zhang
+  ls -la fileFroml3zhang
+  # -rw-rw-r--  1 l3zhang zhangl    0 Mar  9 16:40 fileFroml3zhang
+  # group 是 zhangl，不是 l3zhang
+  ```
+- sticky Bit
+  - t: t 有 x 权限, T 只有 t 权限
+  - 目录
+  - 在该目录下，用户只能删除自己创建的内容
+  ```sh
+  ls -lad /tmp
+  # drwxrwxrwt 18 root root 4096 Mar  9 16:53 /tmp
+  cd /tmp
+  ls -la
+  # drwxrwxrwt  2 root   root   4096 Mar  9 15:27 .Test-unix
+  rm -rf .Test-unix
+  rm: cannot remove '.Test-unix': Operation not permitted
+  ```
+ - 练习
+  - 新建一个群组 TestGroup
+  - 在自己的 Linux 系统中新建两个用户 UserA 和 UserB
+  - 假设现在有一个项目需要由 A，B 两位用户同时对项目有读写权限，使用 root 用花创建一个目录，实现 A，B 两位用户都能够读写新建文件
+    - UserA 新建的文件，可以直接被 UserB 读写
+    - UserA UserB 只能删除自己创建的内容
+    - 其他用户不能读取该项目目录
