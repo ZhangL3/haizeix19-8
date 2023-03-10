@@ -528,7 +528,23 @@ df -h
  - 练习
   - 新建一个群组 TestGroup
   - 在自己的 Linux 系统中新建两个用户 UserA 和 UserB
-  - 假设现在有一个项目需要由 A，B 两位用户同时对项目有读写权限，使用 root 用花创建一个目录，实现 A，B 两位用户都能够读写新建文件
+  - 假设现在有一个项目需要由 A，B 两位用户同时对项目有读写权限，使用 root 用户创建一个目录，实现 A，B 两位用户都能够读写新建文件
     - UserA 新建的文件，可以直接被 UserB 读写
     - UserA UserB 只能删除自己创建的内容
     - 其他用户不能读取该项目目录
+
+    ```sh
+    sudo groupadd TestGroup
+    sudo useradd UserA
+    sudo passwd UserA
+    sudo useradd UserB
+    sudo passwd UserB
+    sudo useradd UserC
+    sudo passwd UserC
+    mkdir TestLP
+    chgrp -R TestGroup TestLP
+    sudo usermod -a -G TestGroup UserA
+    sudo usermod -a -G TestGroup UserP
+    sudo chmod o-x TextLP
+    sudo chmod +t TestLP
+    ```
