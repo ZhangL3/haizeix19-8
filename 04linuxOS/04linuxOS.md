@@ -547,4 +547,7 @@ df -h
     sudo usermod -a -G TestGroup UserP
     sudo chmod o-x TextLP
     sudo chmod +t TestLP
+    # 新的内核更改里安全机制，默认是 2
+    # https://www.kernel.org/doc/html/latest/admin-guide/sysctl/fs.html#protected-regular
+    echo 0 >> /proc/sys/fs/protected_regular
     ```
