@@ -551,3 +551,40 @@ df -h
     # https://www.kernel.org/doc/html/latest/admin-guide/sysctl/fs.html#protected-regular
     echo 0 >> /proc/sys/fs/protected_regular
     ```
+
+# 命令与文件查找
+- which 寻找可执行文件
+  - 查找 PATH 路径下的可执行文件
+- whereis [-bmsu] 寻找特定文件
+- locate [-ir] 搜索文件（可部分查找）
+  - 快，因为把文件名做里意识数据库
+  - 但找不到最近更新的
+  - updatedb 重新整理数据库
+- find [PATH] [option] [action] 多样化高级查找
+  - 与时间相关的参数:
+      - -mtime n
+      - -mtime +n
+      - -mtime -n
+      - -newer file
+    ```
+    # +n file     n   -n
+    # =====file===n========today===
+    ```
+  - 与用户或用户组相关的参数
+    - -uid n:
+    - -gid n:
+    - -user name
+    - -group name
+    - nouser
+    - nogroup
+  - 与文件权限及名称相关的参数
+    - -name filename
+    - -size [+=] SIZE
+    - -type TYPE
+      - f b c d l s p
+    - -perm mode
+    - -perm -mode
+  - find [] -exec ls l {} \;
+    - find . -name "*.log" -mtime -1 -exec wc -l {} \;
+- 练习
+  - 求出家目录下，所有 .c, .cpp, .sh, .h 文件的总行数
