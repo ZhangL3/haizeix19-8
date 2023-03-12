@@ -588,3 +588,6 @@ df -h
     - find . -name "*.log" -mtime -1 -exec wc -l {} \;
 - 练习
   - 求出家目录下，所有 .c, .cpp, .sh, .h 文件的总行数
+  ```sh
+  find . \( -name "*.c" -or  -name "*.cpp" -o -name "*.h" -or -name "*.sh" \) -exec wc -l {} \; | awk '{sum += $1} END {print sum}'
+  ```
