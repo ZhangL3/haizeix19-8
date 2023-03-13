@@ -547,6 +547,8 @@ df -h
     sudo usermod -a -G TestGroup UserP
     sudo chmod o-x TextLP
     sudo chmod +t TestLP
+    # 通过 strace 可以查看到函数调用
+    # >> 里调用了 create，是没有权限的
     # 新的内核更改里安全机制，默认是 2
     # https://www.kernel.org/doc/html/latest/admin-guide/sysctl/fs.html#protected-regular
     echo 0 >> /proc/sys/fs/protected_regular
@@ -591,3 +593,38 @@ df -h
   ```sh
   find . \( -name "*.c" -or  -name "*.cpp" -o -name "*.h" -or -name "*.sh" \) -exec wc -l {} \; | awk '{sum += $1} END {print sum}'
   ```
+
+  ## 实现 ls 需要用到的函数
+
+  - env -> LS_COLORS
+  - opendir
+    - if success, return the pointer to the first entry of stream
+    - if not, return NULL and errno
+    - errno: error number
+      - perror: print error message, 相当于 throw new Error()
+
+        ```c
+        #include <stdio.h>
+        #include <stdlib.h>
+        
+        int main(void)
+        {
+          FILE *fh;
+        
+          if ((fh = fopen("mylib/myfile","r")) == NULL)
+          {
+              perror("Could not open data file");
+              abort();
+          }
+        }
+        ```
+  - readdir
+    - return the pointer to the next directory entry
+    - 得用循环结构读取, return NULL if touch the end
+  - closedir
+  - 2 stat
+    - reutrn infomation about a file, in the buffer pointed to by statbuf
+  - getpwuid
+    - return passwd struct
+  - getgrgid
+    - return group struct
