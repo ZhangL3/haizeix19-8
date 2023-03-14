@@ -628,3 +628,60 @@ df -h
     - return passwd struct
   - getgrgid
     - return group struct
+
+## 数据提取操作
+
+- cut [-dfc] <file>
+  - 切分
+  ```sh
+  export | cut -c 12-
+  export | cut -d " " -f 3-
+  ```
+- grep [-acinvw] <string> <file>
+  - 检索
+- sort [-fbMnrtuk] <file_or_stdin>
+  - 排序
+  ```sh
+  cat /etc/passwd | sort -t : -k 3 -n -r
+  ```
+- wc [-lwm] <file_or_stdin>
+  - 统计字符，字数，行数
+  ```sh
+  last | grep -v "wtmp" | grep -v '^$' | wc -l
+  last | grep -v "wtmp" | grep -v '^$' | cut -d " " -f 1 | sort -u
+  ```
+- uniq [-ic]
+  - 去重，先排序在去重，不然被隔开的重复内容会被计算多次
+  ```sh
+  last | grep -v "wtmp" | grep -v '^$' | cut -d " " -f 1 | sort | uniq -c
+  ```
+- tee [-a] file
+  - 双向重导向
+  ```sh
+  # ls 的内容不止输出到 d.log，还输出到 stdout
+  ls | tee d.log
+  ```
+- splite [-bl] <file> PREFIX
+  - 切分文件，默认储存在当前位置
+  ```sh
+  split -l 10 a.log a.log_
+  ```
+- xargs [-0pne] <command>
+  - 前一个命令的标准输出转化外后一个命令的参数，而非标准输入流
+  ```sh
+  cat /etc/passwd | cut -d ":" -f 1 | xargs -n 1 id
+  # 读到 "proxy" 就结束
+  cat /etc/passwd | cut -d ":" -f 1 | xargs -eproxy -n 1 id
+  ```
+- tr [-cdst] <字符集> <字符集>
+  -替换，压缩和删除
+  ```sh
+  ls | tr [a-z] [A-Z]
+
+  for i in `ls`; do
+  mv $i `echo $i | tr [a-z] [A-Z]`
+  done
+
+  # 统计单词出现的字数
+  cat A.LOG | tr -s -c [a-z] ' ' | tr ' ' '\n' | sort | uni -c | sort -n -r | head -n 20
+  ```
