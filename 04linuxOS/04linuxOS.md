@@ -761,8 +761,16 @@ df -h
 ### 练习
 - 新建一个用户 Admin
   - 密码 100 天后过期，提前 7 天提醒， 过期 10 后不修改密码将关闭帐号
-  - 定义 SEHLL， 有 HOME
+  - 定义 SHELL，有 HOME
   - 登录自动打印欢迎信息: Welcom Admin(提取变量)! Today is 2017-09-27
     - 并且打印最后一次登录的详细信息和最近登录的总次数
   - 可直接执行 my_ls
   - 可执行 sudo 命令
+
+```sh
+sudo useradd -m Admin
+sudo passwd Admin
+sudo usermod -g sudo Admin
+sudo vim /etc/shadow
+# Admin:$y$j9T$WT356INmM.WYo629WeTdG1$TseJn3y79uy6WHT.Mc/p9Rhj90qH1gd2NfPss5L9yHD:19431:0:10:7:10:19531:
+```
