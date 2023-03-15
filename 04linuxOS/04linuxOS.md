@@ -685,3 +685,84 @@ df -h
   # 统计单词出现的字数
   cat A.LOG | tr -s -c [a-z] ' ' | tr ' ' '\n' | sort | uni -c | sort -n -r | head -n 20
   ```
+
+## 用户管理
+
+### 用户管理的重要配置文件
+- /etc/passwd
+
+  ![./passwd.png](./passwd.png)
+  - 用户名
+  - 密码位
+    - 早期是写密码的，但为了安全，存到 shadow 了，x 当占位符
+  - 用户编号
+  - 归属组编号
+  - 姓名
+  - $HOME
+  - $SHELL
+- /etc/shadow
+
+  ![./shadow.png](./shadow.png)
+  - 用户名
+  - 已加密密码
+  - 密码改动信息
+  - 密码策略
+    - 密码不可改动时间
+    - 密码需要重新修改的时间
+    - 密码变更期限前警告时间
+    - 密码过期宽限时间
+    - 帐号失效日期
+    - 保留
+- /etc/group
+
+  ![./group.png](./group.png)
+  - 群组名
+  - 密码位
+  - 群组编号
+  - 组内用户
+- /etc/gshadow
+
+  ![./gshadow.png](./gshadow.png)
+  - 组名
+  - 密码
+    - ！： 没有密码
+  - 群组管理员
+  - 加入该群组的所属帐号
+- /etc/sudoers
+  - 用户名
+  - 权限定义
+  - 权限
+  - (sudo)
+
+### 用户命令
+-su [-lmpfc] <username>
+  - 切换用户
+- sudo [-siul] <command>
+  - 临时切换为 root 用户
+- passwd [-dleSxnf] <username>
+  - 设置用户密码
+- gpasswd [-adrAM] <groupname>
+  - 设置群组密码
+- usermod [-cdefgGlLsuU] <username>
+  - 修改用户账户
+- useradd [-dmMsugGnefcD] <username>
+  - 新建用户 (adduser)
+  - /etc/login.defs
+    - 新建用户规则
+  - /etc/skel/
+    - 新建用户默认文件
+- userdel [-r] <username>
+  - 删除用户
+- id [-gGnru] <username>
+  - 显示用户信息
+- chsh -s Shell <username>
+  - 更改用户 shell
+
+### 练习
+- 新建一个用户 Admin
+  - 密码 100 天后过期，提前 7 天提醒， 过期 10 后不修改密码将关闭帐号
+  - 定义 SEHLL， 有 HOME
+  - 登录自动打印欢迎信息: Welcom Admin! Today is 2017-09-27
+    - 并且打印最后一次登录的详细信息和最近登录的总次数
+  - 可直接执行 my_ls
+  - 可执行 sudo 命令
