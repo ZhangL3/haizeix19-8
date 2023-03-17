@@ -81,7 +81,7 @@
     - bash
       - /etc/bash.bashrc
         - 配置文件
-      - /etc/bash.profile
+      - /etc/bash_profile
         - 用户 session
       - /etc/bash.bash.logout
         - 退出时的操作
@@ -774,3 +774,45 @@ sudo usermod -g sudo Admin
 sudo vim /etc/shadow
 # Admin:$y$j9T$WT356INmM.WYo629WeTdG1$TseJn3y79uy6WHT.Mc/p9Rhj90qH1gd2NfPss5L9yHD:19431:0:10:7:10:19531:
 ```
+
+## 进程与任务管理
+### 进程管理
+
+- free [-bkmgtsh]
+  - 打印系统情况和内存情况
+- top
+  - 显示当前系统进程情况，内存，CPU等信息
+  - htop
+- dstat
+  - 实施监控磁盘，CPU，网络等
+  - 可以输出 .csv
+  - nmon
+- ps [-aux / -ef]
+  - 报告当前进程状态
+  - ps -aux | grep ssh
+- pstree [-apnul]
+  - 以树状显示进程派生关系
+- pgrep [-onlpgtu] <进程名>
+  - 查找进程 ID
+- kill [-9] <pid>
+  - 删除执行中的程序和工作
+  - 对莫个进程发送 9 状态
+- pkill [-onpgt] <进程名>
+  - 批量按照进程名杀死进程
+
+### 任务管理
+- cron
+  - 定时任务
+  - crontab -e 编辑
+  - crontab -l 显示列表
+  ```
+  *   *   *   *   *   command
+  分  时  日  月  周
+  */5 每 5 分钟
+  ```
+  - crond 守护进程
+- at [ldc] <args>
+  - 在制定的时间执行一个指定的任务
+  - atd 守护进程
+- sleep
+  - 睡眠，等待多长时间后执行
