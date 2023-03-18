@@ -771,6 +771,7 @@ df -h
 sudo useradd -m Admin
 sudo passwd Admin
 sudo usermod -g sudo Admin
+sudo usermod -g sudo zhangl
 sudo vim /etc/shadow
 # Admin:$y$j9T$WT356INmM.WYo629WeTdG1$TseJn3y79uy6WHT.Mc/p9Rhj90qH1gd2NfPss5L9yHD:19431:0:10:7:10:19531:
 sudo vim /etc/passwd
