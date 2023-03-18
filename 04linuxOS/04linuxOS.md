@@ -773,6 +773,37 @@ sudo passwd Admin
 sudo usermod -g sudo Admin
 sudo vim /etc/shadow
 # Admin:$y$j9T$WT356INmM.WYo629WeTdG1$TseJn3y79uy6WHT.Mc/p9Rhj90qH1gd2NfPss5L9yHD:19431:0:10:7:10:19531:
+sudo vim /etc/passwd
+# Admin:x:1005:27::/home/Admin:/bin/bash
+sudo vim /home/Admin/.bash_profile
+```
+
+```sh
+#!/bin/bash
+# .bash_profile
+ echo Hello `whoami`! Tody is `date +%F`
+ LOG_FILE='loginAdmin.log'
+ i=1
+ while read line; do
+         case $i in
+                 1)
+                         LAST_LOGIN_ADMIN=$line
+                         ;;
+                 2)
+                         LOGIN_CNT_ADMIN=$line
+                         ;;
+                 *)
+                         echo finish
+                         ;;
+         esac
+         i=$((i+1))
+ done<$LOG_FILE
+ 
+ echo last login: ${LAST_LOGIN_ADMIN}
+ echo total login times: ${LOGIN_CNT_ADMIN}
+ 
+ date > $LOG_FILE
+ echo $((LOGIN_CNT_ADMIN + 1)) >> $LOG_FILE
 ```
 
 ## 进程与任务管理
