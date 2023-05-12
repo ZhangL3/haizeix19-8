@@ -6,8 +6,12 @@ void do_ls(char[]);
 
 int main(int argc, char *argv[]) {
   // 如果只有一个参数，就是没有传參
+  char currentDir = '.';
+  char currentDirStr[2];
+  currentDirStr[0] = currentDir;
+  currentDirStr[1] = '\0';
   if (argc == 1) {
-    do_ls(".");
+    do_ls(currentDirStr);
   } else {
     // 减到 0 停止
     while (--argc) {
