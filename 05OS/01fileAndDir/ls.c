@@ -1,12 +1,46 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <sys/types.h>
 
 int flag_a = 0;
 int flag_l = 0;
 
+void do_stat(char *filename) {
+  printf("Doing with %s status.\n", filename);
+  return;
+}
+
 void do_ls(char *dirname) {
+  DIR *dirp = NULL;
+  struct dirent *direntp;
+
+  // NULL: 目录无法打开, 不是目录
+  if ((dirp = opendir(dirname)) == NULL) {
+    // 可能是个文件
+    // access 对某个文件是否可达
+    if (access(dirname, R_OK) == 0) {
+      // 如果不是列表形式，直接打印
+      if (flag_l == 0) {
+        printf("%s\n", dirname);
+        return;
+      } else {
+        do_stat(dirname);
+        return;
+      }
+    } else {
+      // 既不是目录也不是文件
+      // This is the C string containing a custom message to be printed before the error message itself.
+      perror(dirname);
+      return;
+    }
+  } else {
+    // 目录可打开
+    printf("%s:\n", dirname);
+  }
   printf("Doing with dir %s.\n", dirname);
+
 }
 
 int main(int argc, char **argv) {
