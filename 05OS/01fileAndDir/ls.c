@@ -4,6 +4,10 @@
 #include <dirent.h>
 #include <sys/types.h>
 
+#define FILEMAX 1024
+// 定义 name 长度和 direntp->d_name 一样
+#define NAMEMAX 256
+
 int flag_a = 0;
 int flag_l = 0;
 
@@ -13,8 +17,21 @@ void do_stat(char *filename) {
 }
 
 void do_ls(char *dirname) {
+  // DIR: pointer to a directory stream
+  // opendir return in this type
   DIR *dirp = NULL;
+  // readdir return in this type, man readdir
+  // struct dirent {
+  //   ino_t          d_ino;       /* Inode number */
+  //   off_t          d_off;       /* Not an offset; see below */
+  //   unsigned short d_reclen;    /* Length of this record */
+  //   unsigned char  d_type;      /* Type of file; not supported
+  //                                 by all filesystem types */
+  //   char           d_name[256]; /* Null-terminated filename */
+  // };
   struct dirent *direntp;
+  // 储存文件夹下文件的名字
+  char names[FILEMAX][NAMEMAX] = {0};
 
   // NULL: 目录无法打开, 不是目录
   if ((dirp = opendir(dirname)) == NULL) {
@@ -38,6 +55,13 @@ void do_ls(char *dirname) {
   } else {
     // 目录可打开
     printf("%s:\n", dirname);
+    int cnt = 0;
+    // readdir 读到目录末尾时返回 NULL
+    while((direntp = readdir(dirp)) != NULL) {
+      // 处理是否显示隐藏文件
+      if (direntp->d_name[0] == '.' && (flag_a == 0)) continue;
+      strcpy(names[cnt++], direntp->d_name);
+    }
   }
   printf("Doing with dir %s.\n", dirname);
 
