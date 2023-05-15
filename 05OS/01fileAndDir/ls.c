@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <sys/types.h>
+#include <string.h>
 
 #define FILEMAX 1024
 // 定义 name 长度和 direntp->d_name 一样
@@ -14,6 +15,16 @@ int flag_l = 0;
 void do_stat(char *filename) {
   printf("Doing with %s status.\n", filename);
   return;
+}
+
+// A void pointer is a pointer that has no associated data type with it.
+// A void pointer can hold address of any type and can be typecasted to any type. 
+// void* 相当于 any
+int cmp_name(const void* _a, const void* _b) {
+  // 强转
+  char *a = (char *)_a;
+  char *b = (char *)_b;
+  return strcmp(a, b);
 }
 
 void do_ls(char *dirname) {
@@ -62,12 +73,26 @@ void do_ls(char *dirname) {
       if (direntp->d_name[0] == '.' && (flag_a == 0)) continue;
       strcpy(names[cnt++], direntp->d_name);
     }
+    // sort
+    qsort(names, cnt, NAMEMAX, cmp_name);
+    if (flag_l == 1) {
+      for (int i = 0; i < cnt; i++) {
+        do_stat(names[i]);
+      }
+    } else {
+      printf("Print all files\n");
+    }
   }
   printf("Doing with dir %s.\n", dirname);
 
 }
 
 int main(int argc, char **argv) {
+  char currentDirChar = '.';
+  char currentDirStr[2];
+  currentDirStr[0] = currentDirChar;
+  currentDirStr[1] = '\0';
+
   int opt;
   while((opt = getopt(argc, argv, "al")) != -1) {
     switch (opt) {
@@ -98,7 +123,7 @@ int main(int argc, char **argv) {
 
   // 1 表示只有函数调用，没有参数
   if (argc == 1){
-    do_ls(".");
+    do_ls(currentDirStr);
   } else {
     while(--argc) {
       do_ls(*(++argv));
