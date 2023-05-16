@@ -4,6 +4,7 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include <string.h>
+#include <sys/ioctl.h>
 
 #define FILEMAX 1024
 // 定义 name 长度和 direntp->d_name 一样
@@ -11,6 +12,67 @@
 
 int flag_a = 0;
 int flag_l = 0;
+
+void size_window(char filename[][NAMEMAX], int cnt, int *row, int *col) {
+  /* 
+  struct winsize {
+               unsigned short ws_row;
+               unsigned short ws_col;
+           };
+  */
+  struct winsize size;
+  // len: 各个文件名的长度
+  // 动态数组不会被初始化，所以用 memset 初始化
+  // int len[cnt] = {0};
+  // max: 最长名字的长度, 判断是不是一个名字就超出的宽度
+  // total: 所有名字加起来的长度
+  int len[cnt], max = 0, total = 0;
+  // memeset(内存首地址, 初始化的值, 整个的长度)
+  memset(len, 0, sizeof(int) * cnt);
+
+  // 判断是不是终端
+  // STDOUT_FILENO: open 函数打开终端返回的文件标识符
+  if (isatty(STDOUT_FILENO) == 0) {
+    exit(1);
+  }
+
+  // The  ioctl()  system  call manipulates the underlying device parameters of special files.
+  // fd: STDOUT_FILENO: open 函数打开终端返回的文件标识符
+  // cmd: TIOCGWINSZ: 获取窗口大小
+  /*
+    TIOCGWINSZ
+              Argument: struct winsize *argp
+
+              Get window size.
+  */
+  // &size: cmd 的参数,传出参数
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &size) < 0) {
+    perror("ioctl");
+    exit(1);
+  }
+  printf("window size row = %d, col = %d\n", size.ws_row, size.ws_col);
+
+  // 所有文件都显示，且长度不超出宽度的时候，显示在一行
+  // 超出宽度，显示成列
+  for (int i = 0; i < cnt; i++) {
+    len[i] = strlen(filename[i]);
+    if (max < len[i]) max = len[i];
+    // +1: 名字后要有一个空格
+    total += len[i] + 1;
+  }
+  // 如果最长的名字超过了宽度，就打印一列
+  if (max + 1 >= size.ws_col) {
+    *row = cnt;
+    *col = 1;
+    return ;
+  }
+  // 如果总长度没超过宽度，就打印一行
+  if (total <= size.ws_col) {
+    *row = 1;
+    *col = cnt;
+    return;
+  }
+}
 
 void do_stat(char *filename) {
   printf("Doing with %s status.\n", filename);
@@ -43,6 +105,8 @@ void do_ls(char *dirname) {
   struct dirent *direntp;
   // 储存文件夹下文件的名字
   char names[FILEMAX][NAMEMAX] = {0};
+  // 目录下的文件个数
+  int cnt = 0;
 
   // NULL: 目录无法打开, 不是目录
   if ((dirp = opendir(dirname)) == NULL) {
@@ -66,7 +130,6 @@ void do_ls(char *dirname) {
   } else {
     // 目录可打开
     printf("%s:\n", dirname);
-    int cnt = 0;
     // readdir 读到目录末尾时返回 NULL
     while((direntp = readdir(dirp)) != NULL) {
       // 处理是否显示隐藏文件
@@ -84,7 +147,12 @@ void do_ls(char *dirname) {
     }
   }
   printf("Doing with dir %s.\n", dirname);
-
+  // 输出 names 数组里所有内容
+  // 规划窗口: 要输出几行几列
+  int row, col;
+  // 输出参数，传地址
+  size_window(names, cnt, &row, &col);
+  printf("row = %d, col = %d\n", row, col);
 }
 
 int main(int argc, char **argv) {
