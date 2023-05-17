@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <math.h>
 #include <dirent.h>
 #include <sys/types.h>
 #include <string.h>
@@ -71,6 +72,46 @@ void size_window(char filename[][NAMEMAX], int cnt, int *row, int *col) {
     *row = 1;
     *col = cnt;
     return;
+  }
+  // 打印多行多列, 到底几行几列, 怎么算？
+  // 先看一行最多能放几个（从头向后），放不下了再把列数向下减
+  // 本次尝试时，共有几列
+  int try_begin = 0;
+  for (int i = 0, tmp = 0; i < cnt; i++) {
+    // tmp: 当前行的宽度
+    tmp += (len[i] + 1);
+    if (tmp >= size.ws_col) {
+      try_begin = i; 
+      break;
+    }
+  }
+
+  // 宽度不够的话，向下减
+  for (int i = try_begin; ;i--) {
+    // 找到每列最宽的那个，能知道下一列在什么位置输出
+    // wide[i] 里的 i 是动态的，无法初始化，所以手动申请内存
+    int *wide = (int *)malloc(sizeof(int) * i);
+    memset(wide, 0, sizeof(int) * i);
+    // ceil: 上取整，最后一列不一定要摆满，ceil 返回 double，强转
+    *row = (int)ceil(cnt / i);
+    // 遍历过的所有列的宽度的总和
+    int try_sum = 0;   
+    // 求每一列的初始位置，第一个 name 是哪一个
+    for (int x = 0; x < i; x++) {
+      for (int y = x * *row; y < (x + 1) * *row && y < cnt; y++) {
+        // 如果当前遍历的 name 的长度大于当前列宽度，更新当前列的宽度 wide[x]
+        if (wide[x] < len[y]) wide[x] = len[y];
+      }
+      try_sum += (wide[x] + 1);
+    }
+
+    // 如果宽度总和超过了终端的宽度，减少一列试试
+    if (try_sum > size.ws_col) continue;
+    // 第一个小于屏幕宽度的列宽度总和出现时，就定好了总共有多少列
+    if (try_sum <= size.ws_col) {
+      *col = i;
+      break;
+    }
   }
 }
 
