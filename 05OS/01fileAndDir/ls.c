@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <sys/ioctl.h>
+#include <sys/stat.h>
 
 #define FILEMAX 1024
 // 定义 name 长度和 direntp->d_name 一样
@@ -131,14 +132,27 @@ void show_files(char filename[][NAMEMAX], int cnt, int row, int col) {
     // 第二：改成完全的和屏幕不符
     for (int j = i; j < i + (row * col) && j < cnt; j = j + row) {
       int tmp = j / row;
+      // -: Left-justify within the given field width; Right justification is the default.
+      // *: The width is not specified in the format string, but as an additional integer value argument preceding the argument that has to be formatted.
       printf("%-*s", wide_file[tmp] + 1, filename[j]);
     }
     printf("\n");
   }
 }
 
+void show_info(char *filename) {
+  printf("%s\n", filename);
+}
+
 void do_stat(char *filename) {
-  printf("Doing with %s status.\n", filename);
+  struct stat st;
+  // stat: These  functions  return  information about a file, in the buffer pointed to by statbuf.
+  if (stat(filename, &st) < 0) {
+    perror(filename);
+  } else {
+    show_info(filename);
+  }
+  // printf("Doing with %s status.\n", filename);
   return;
 }
 
@@ -168,8 +182,6 @@ void do_ls(char *dirname) {
   struct dirent *direntp;
   // 储存文件夹下文件的名字
   char names[FILEMAX][NAMEMAX] = {0};
-  // 目录下的文件个数
-  int cnt = 0;
 
   // NULL: 目录无法打开, 不是目录
   if ((dirp = opendir(dirname)) == NULL) {
@@ -193,6 +205,10 @@ void do_ls(char *dirname) {
   } else {
     // 目录可打开
     printf("%s:\n", dirname);
+    // 当前程序的运行的位置为默认 dir,要找到特定文件夹下的文件，先进入那个文件夹
+    chdir(dirname);
+    // 目录下的文件个数
+    int cnt = 0;
     // readdir 读到目录末尾时返回 NULL
     while((direntp = readdir(dirp)) != NULL) {
       // 处理是否显示隐藏文件
@@ -208,16 +224,16 @@ void do_ls(char *dirname) {
       }
     } else {
       printf("Print all files\n");
+      int row, col;
+      // 输出参数，传地址
+      size_window(names, cnt, &row, &col);
+      printf("row = %d, col = %d\n", row, col);
+      show_files(names, cnt, row, col);
     }
   }
   printf("Doing with dir %s.\n", dirname);
   // 输出 names 数组里所有内容
   // 规划窗口: 要输出几行几列
-  int row, col;
-  // 输出参数，传地址
-  size_window(names, cnt, &row, &col);
-  printf("row = %d, col = %d\n", row, col);
-  show_files(names, cnt, row, col);
 }
 
 int main(int argc, char **argv) {
