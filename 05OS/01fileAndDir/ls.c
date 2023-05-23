@@ -140,8 +140,55 @@ void show_files(char filename[][NAMEMAX], int cnt, int row, int col) {
   }
 }
 
-void show_info(char *filename) {
-  printf("%s\n", filename);
+void mode_to_str(mode_t mode, char *str) {
+  // struct stat {
+  //     mode_t    st_mode;        /* File type and mode */
+  // };
+
+  /**
+   * The following mask values are defined for the file type:
+   *  以 0 开头，八进制，每个数字为 3 bit，最大为 7(111)
+      S_IFMT     0170000   bit mask for the file type bit field
+
+      S_IFSOCK   0140000   socket
+      S_IFLNK    0120000   symbolic link
+      S_IFREG    0100000   regular file
+      S_IFBLK    0060000   block device
+      S_IFDIR    0040000   directory
+      S_IFCHR    0020000   character device
+      S_IFIFO    0010000   FIFO
+
+      The following mask values are defined for the file mode component
+      of the st_mode field:
+
+      S_ISUID     04000   set-user-ID bit (see execve(2))
+      S_ISGID     02000   set-group-ID bit (see below)
+      S_ISVTX     01000   sticky bit (see below)
+
+      S_IRWXU     00700   owner has read, write, and execute
+                          permission
+      S_IRUSR     00400   owner has read permission
+      S_IWUSR     00200   owner has write permission
+      S_IXUSR     00100   owner has execute permission
+
+      S_IRWXG     00070   group has read, write, and execute
+                          permission
+      S_IRGRP     00040   group has read permission
+      S_IWGRP     00020   group has write permission
+      S_IXGRP     00010   group has execute permission
+
+      S_IRWXO     00007   others (not in group) have read, write,
+                          and execute permission
+      S_IROTH     00004   others have read permission
+      S_IWOTH     00002   others have write permission
+      S_IXOTH     00001   others have execute permission
+  */
+
+}
+
+void show_info(char *filename, struct stat info) {
+  char modestr[11] = "----------";
+  // printf("%s\n", filename);
 }
 
 void do_stat(char *filename) {
@@ -150,7 +197,7 @@ void do_stat(char *filename) {
   if (stat(filename, &st) < 0) {
     perror(filename);
   } else {
-    show_info(filename);
+    show_info(filename, &st);
   }
   // printf("Doing with %s status.\n", filename);
   return;
