@@ -115,6 +115,28 @@ void size_window(char filename[][NAMEMAX], int cnt, int *row, int *col) {
   }
 }
 
+void show_files(char filename[][NAMEMAX], int cnt, int row, int col) {
+  int wide_file[cnt];
+  memset(wide_file, 0, sizeof(int) * cnt);
+  // 求每一列的宽度
+  for (int i = 0; i < col; i++) {
+    for (int j = (i * row); j < (i + 1) * row && j < cnt; j ++) {
+      if (wide_file[i] < strlen(filename[j])) wide_file[i] = strlen(filename[j]);
+    }
+  }
+
+  for (int i = 0; i < row; i++) {
+    // 这里有两个问题有待修改
+    // 第一：输出不是完全的
+    // 第二：改成完全的和屏幕不符
+    for (int j = i; j < i + (row * col) && j < cnt; j = j + row) {
+      int tmp = j / row;
+      printf("%-*s", wide_file[tmp] + 1, filename[j]);
+    }
+    printf("\n");
+  }
+}
+
 void do_stat(char *filename) {
   printf("Doing with %s status.\n", filename);
   return;
@@ -177,6 +199,7 @@ void do_ls(char *dirname) {
       if (direntp->d_name[0] == '.' && (flag_a == 0)) continue;
       strcpy(names[cnt++], direntp->d_name);
     }
+    printf("cnt: %d\n", cnt);
     // sort
     qsort(names, cnt, NAMEMAX, cmp_name);
     if (flag_l == 1) {
@@ -194,6 +217,7 @@ void do_ls(char *dirname) {
   // 输出参数，传地址
   size_window(names, cnt, &row, &col);
   printf("row = %d, col = %d\n", row, col);
+  show_files(names, cnt, row, col);
 }
 
 int main(int argc, char **argv) {
