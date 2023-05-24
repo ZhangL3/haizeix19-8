@@ -147,26 +147,53 @@ void mode_to_str(mode_t mode, char *str) {
 
   /**
    * The following mask values are defined for the file type:
-   *  以 0 开头，八进制，每个数字为 3 bit，最大为 7(111)
+     以 0 开头，八进制，每个数字为 3 bit，最大为 7(111)
       S_IFMT     0170000   bit mask for the file type bit field
+                 001111000000000000
 
       S_IFSOCK   0140000   socket
+                 001100000000000000
       S_IFLNK    0120000   symbolic link
+                 001010...
       S_IFREG    0100000   regular file
+                 001000...
       S_IFBLK    0060000   block device
+                 000110...
       S_IFDIR    0040000   directory
+                 000100...
       S_IFCHR    0020000   character device
+                 000010
       S_IFIFO    0010000   FIFO
+                 000001
 
-      The following mask values are defined for the file mode component
+      stat(pathname, &sb);
+      if ((sb.st_mode & S_IFMT) == S_IFREG) {
+        // Handle regular file
+      }
+  */
+
+  if (S_ISREG(mode)) str[0] = '-';
+  if (S_ISDIR(mode)) str[0] = 'd';
+  if (S_ISCHR(mode)) str[0] = 'c';
+  if (S_ISBLK(mode)) str[0] = 'b';
+  if (S_ISSOCK(mode)) str[0] = 's';
+  if (S_ISLNK(mode)) str[0] = 'l';
+  if (S_ISFIFO(mode)) str[0] = 'p';
+
+  /**
+   *  The following mask values are defined for the file mode component
       of the st_mode field:
 
       S_ISUID     04000   set-user-ID bit (see execve(2))
+                  100000000000
       S_ISGID     02000   set-group-ID bit (see below)
+                  010000...
       S_ISVTX     01000   sticky bit (see below)
+                  001000...
 
       S_IRWXU     00700   owner has read, write, and execute
                           permission
+                  000111...
       S_IRUSR     00400   owner has read permission
       S_IWUSR     00200   owner has write permission
       S_IXUSR     00100   owner has execute permission
@@ -182,13 +209,47 @@ void mode_to_str(mode_t mode, char *str) {
       S_IROTH     00004   others have read permission
       S_IWOTH     00002   others have write permission
       S_IXOTH     00001   others have execute permission
+
+      if (sb.st_mode & S_IRWXU) {
+        // Handle user hat read, write, execute permissions
+      }
   */
 
+  if (mode & S_IRUSR) str[1] = 'r';
+  if (mode & S_IWUSR) str[2] = 'w';
+  if (mode & S_IXUSR) str[3] = 'x';
+
+  if (mode & S_IRGRP) str[4] = 'r';
+  if (mode & S_IWGRP) str[5] = 'w';
+  if (mode & S_IXGRP) str[6] = 'x';
+
+  if (mode & S_IROTH) str[7] = 'r';
+  if (mode & S_IWOTH) str[8] = 'w';
+  if (mode & S_IXOTH) str[9] = 'x';
+
+  if ((mode & S_IXUSR) && (mode & S_ISUID)) str[3] = 's';
+  if (!(mode & S_IXUSR) && (mode & S_ISUID)) str[3] = 'S';
+  if ((mode & S_IXGRP) && (mode & S_ISGID)) str[6] = 's';
+  if (!(mode & S_IXGRP) && (mode & S_ISGID)) str[6] = 'S';
+  if ((mode & S_IXOTH) && (mode & S_ISVTX)) str[9] = 's';
+  if (!(mode & S_IXOTH) && (mode & S_ISVTX)) str[9] = 'S';
 }
 
-void show_info(char *filename, struct stat info) {
+char *uid_to_name(uid_t uid) {
+  struct passwd *pw_ptr;
+}
+
+char *gid_to_name(gid_t gid) {
+  struct passwd *pw_ptr;
+}
+
+void show_info(char *filename, struct stat *info) {
   char modestr[11] = "----------";
-  // printf("%s\n", filename);
+  mode_to_str(info->st_mode, modestr);
+  printf("%s ", modestr);
+  printf("%4d ", (int)info->st_nlink);
+  printf("%10s ", uid_to_name(info->st_uid));
+  printf("%10s ", gid_to_name(info->st_gid));
 }
 
 void do_stat(char *filename) {
