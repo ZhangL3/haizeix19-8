@@ -7,6 +7,8 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
+#include <pwd.h>
+#include <grp.h>
 
 #define FILEMAX 1024
 // 定义 name 长度和 direntp->d_name 一样
@@ -236,11 +238,43 @@ void mode_to_str(mode_t mode, char *str) {
 }
 
 char *uid_to_name(uid_t uid) {
+  // struct passwd {
+  //     char   *pw_name;       /* username */
+  //     char   *pw_passwd;     /* user password */
+  //     uid_t   pw_uid;        /* user ID */
+  //     gid_t   pw_gid;        /* group ID */
+  //     char   *pw_gecos;      /* user information */
+  //     char   *pw_dir;        /* home directory */
+  //     char   *pw_shell;      /* shell program */
+  // };
   struct passwd *pw_ptr;
+  // 如果不是全局的静态变量（static）返回的时候会被销毁
+  static char tmpstr[10] = {0};
+  if ((pw_ptr = getpwuid(uid)) == NULL) {
+    sprintf(tmpstr, "%d", uid);
+    return tmpstr;
+  } else {
+    return pw_ptr->pw_name;
+  }
 }
 
 char *gid_to_name(gid_t gid) {
-  struct passwd *pw_ptr;
+  // struct group {
+  //     char   *gr_name;        /* group name */
+  //     char   *gr_passwd;      /* group password */
+  //     gid_t   gr_gid;         /* group ID */
+  //     char  **gr_mem;         /* NULL-terminated array of pointers
+  //                               to names of group members */
+  // };
+  struct group *gr_ptr;
+  // 和 uid_to_name 里的 tmpstr 不会同时使用，所以重名没问题
+  static char tmpstr[10] = {0};
+  if ((gr_ptr = getgrgid(gid)) == NULL) {
+    sprintf(tmpstr, "%d", gid);
+    return tmpstr;
+  } else {
+    return gr_ptr->gr_name;
+  }
 }
 
 void show_info(char *filename, struct stat *info) {
@@ -250,6 +284,29 @@ void show_info(char *filename, struct stat *info) {
   printf("%4d ", (int)info->st_nlink);
   printf("%10s ", uid_to_name(info->st_uid));
   printf("%10s ", gid_to_name(info->st_gid));
+  printf("%10ld ", info->st_size);
+  // man 2 stat 中 struct stat 里有关于时间的结构体和红定义
+  // struct timespec st_atim;  /* Time of last access */
+  // struct timespec st_mtim;  /* Time of last modification */
+  // struct timespec st_ctim;  /* Time of last status change */
+
+  // #define st_atime st_atim.tv_sec      /* Backward compatibility */
+  // #define st_mtime st_mtim.tv_sec
+  // #define st_ctime st_ctim.tv_sec
+
+  // head 文件存在 /usr/include 文件下，可以通过 grep 找到 timespec 结构体的头文件
+  // grep -n "struct timespec" /usr/include/* 2> /dev/null
+  // 或者直接 man timespec
+
+  // struct timespec {
+  //     // The number of whole seconds elapsed since the epoch (for a simple calendar time) or since some other starting point (for an elapsed time).
+  //     time_t  tv_sec;  /* Seconds 相对时间 */
+  //     long    tv_nsec; /* Nanoseconds */
+  // };
+
+  // 相对时间要转成绝对时间 localtime，用到 struct tm
+
+
 }
 
 void do_stat(char *filename) {
