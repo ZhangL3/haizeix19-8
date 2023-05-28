@@ -358,9 +358,22 @@ void show_info(char *filename, struct stat *info) {
   //     int tm_isdst;  /* Daylight saving time */
   // };
   // ?? 为什么这里要用 &infor->st_mtime 而不是 info->st_mtime
+  // !! 因为 info 自己就是个首地址
   // &... 是字符串的首地址， 4 + & 是从第四个字符开始打印
   printf("%.15s ", 4 + ctime(&info->st_mtime));
-  printf("\033[%d;%dm%s\033[0m\n", bg_c, fg_c, filename);
+  printf("\033[%d;%dm%s\033[0m ", bg_c, fg_c, filename);
+  if(modestr[0] == 'l') {
+    int cnt;
+    // readlink 填写 buffer 是不加 \0, 所有这里要初始化为 0
+    char buf[NAMEMAX] = {0};
+    // readlind(path_of_file, buffer_to_store_linked_path, size_of_buffer)
+    if ((cnt == readlink(filename, buf, NAMEMAX)) < 0) {
+      perror("readlin");
+    } else {
+      printf("-> %s", buf);
+    }
+  }
+  printf("\n");
 }
 
 void do_stat(char *filename) {
