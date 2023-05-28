@@ -17,6 +17,7 @@
 
 int flag_a = 0;
 int flag_l = 0;
+int fg_c, bg_c;
 
 void size_window(char filename[][NAMEMAX], int cnt, int *row, int *col) {
   /* 
@@ -119,8 +120,34 @@ void size_window(char filename[][NAMEMAX], int cnt, int *row, int *col) {
   }
 }
 
+void update_color(mode_t mode) {
+  // 0: 黑色
+  bg_c = 0;
+  // 37: 白色
+  fg_c = 37;
+  // 可执行文件
+  if (mode & (S_IXUSR | S_IXGRP | S_IXOTH)) {
+    // 32: 绿色
+    fg_c = 32;
+  }
+
+  switch (mode & S_IFMT) {
+    case S_IFDIR:
+      // 34: 蓝色
+      fg_c = 34;
+      break;
+    case S_IFLNK:
+      // 36: 青色
+      fg_c = 36;
+      break;
+  }
+
+}
+
+
 void show_files(char filename[][NAMEMAX], int cnt, int row, int col) {
   int wide_file[cnt];
+  struct stat tmp_st;
   memset(wide_file, 0, sizeof(int) * cnt);
   // 求每一列的宽度
   for (int i = 0; i < col; i++) {
@@ -135,9 +162,13 @@ void show_files(char filename[][NAMEMAX], int cnt, int row, int col) {
     // 第二：改成完全的和屏幕不符
     for (int j = i; j < i + (row * col) && j < cnt; j = j + row) {
       int tmp = j / row;
+      stat(filename[j], &tmp_st);
+      update_color(tmp_st.st_mode);
       // -: Left-justify within the given field width; Right justification is the default.
       // *: The width is not specified in the format string, but as an additional integer value argument preceding the argument that has to be formatted.
       printf("%-*s", wide_file[tmp] + 1, filename[j]);
+      // TODO: problem
+      printf("\033[%d;%d%-*s\033[0m", wide_file[tmp] + 1, bg_c, fg_c, filename[j]);
     }
     printf("\n");
   }
@@ -236,6 +267,8 @@ void mode_to_str(mode_t mode, char *str) {
   if (!(mode & S_IXGRP) && (mode & S_ISGID)) str[6] = 'S';
   if ((mode & S_IXOTH) && (mode & S_ISVTX)) str[9] = 's';
   if (!(mode & S_IXOTH) && (mode & S_ISVTX)) str[9] = 'S';
+
+  update_color(mode);
 }
 
 char *uid_to_name(uid_t uid) {
@@ -320,7 +353,7 @@ void show_info(char *filename, struct stat *info) {
   // ?? 为什么这里要用 &infor->st_mtime 而不是 info->st_mtime
   // &... 是字符串的首地址， 4 + & 是从第四个字符开始打印
   printf("%.15s ", 4 + ctime(&info->st_mtime));
-  printf("%s\n", filename);
+  printf("\033[%d;%dm%s\033[0m\n", bg_c, fg_c, filename);
 }
 
 void do_stat(char *filename) {
