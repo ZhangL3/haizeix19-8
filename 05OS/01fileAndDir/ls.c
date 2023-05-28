@@ -162,13 +162,17 @@ void show_files(char filename[][NAMEMAX], int cnt, int row, int col) {
     // 第二：改成完全的和屏幕不符
     for (int j = i; j < i + (row * col) && j < cnt; j = j + row) {
       int tmp = j / row;
-      stat(filename[j], &tmp_st);
+      lstat(filename[j], &tmp_st);
       update_color(tmp_st.st_mode);
       // -: Left-justify within the given field width; Right justification is the default.
       // *: The width is not specified in the format string, but as an additional integer value argument preceding the argument that has to be formatted.
-      printf("%-*s", wide_file[tmp] + 1, filename[j]);
-      // TODO: problem
-      printf("\033[%d;%d%-*s\033[0m", wide_file[tmp] + 1, bg_c, fg_c, filename[j]);
+      // 输出颜色
+      // printf(“\033[0;31m”); //Set the text to the color red
+      // printf(“Hello\n”); //Display Hello in red
+      // printf(“\033[0m”); //Resets the text to default color
+      // Escape is: \033
+      // Color code is: [0;31m
+      printf("\033[%d;%dm%-*s\033[0m", bg_c, fg_c, wide_file[tmp] + 1, filename[j]);
     }
     printf("\n");
   }
@@ -200,7 +204,10 @@ void mode_to_str(mode_t mode, char *str) {
       S_IFIFO    0010000   FIFO
                  000001
 
-      stat(pathname, &sb);
+      // stat: 链接的话显示链接到的文件
+      stat(pathname, %sb);
+      // lstat: 链接的话显示链接的文件本身
+      lstat(pathname, &sb);
       if ((sb.st_mode & S_IFMT) == S_IFREG) {
         // Handle regular file
       }
@@ -359,7 +366,7 @@ void show_info(char *filename, struct stat *info) {
 void do_stat(char *filename) {
   struct stat st;
   // stat: These  functions  return  information about a file, in the buffer pointed to by statbuf.
-  if (stat(filename, &st) < 0) {
+  if (lstat(filename, &st) < 0) {
     perror(filename);
   } else {
     show_info(filename, &st);
@@ -402,7 +409,10 @@ void do_ls(char *dirname) {
     if (access(dirname, R_OK) == 0) {
       // 如果不是列表形式，直接打印
       if (flag_l == 0) {
-        printf("%s\n", dirname);
+        struct stat tmp_st;
+        lstat(dirname, &tmp_st);
+        update_color(tmp_st.st_mode);
+        printf("\033[%d;%dm%s\033[0m\n", bg_c, fg_c, dirname);
         return;
       } else {
         do_stat(dirname);
