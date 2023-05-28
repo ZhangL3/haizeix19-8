@@ -317,7 +317,9 @@ void show_info(char *filename, struct stat *info) {
   //     int tm_yday;   /* Day in the year (0-365, 1 Jan = 0) */
   //     int tm_isdst;  /* Daylight saving time */
   // };
-  printf("%s", ctime(info->st_mtime));
+  // ?? 为什么这里要用 &infor->st_mtime 而不是 info->st_mtime
+  // &... 是字符串的首地址， 4 + & 是从第四个字符开始打印
+  printf("%.15s ", 4 + ctime(&info->st_mtime));
   printf("%s\n", filename);
 }
 
