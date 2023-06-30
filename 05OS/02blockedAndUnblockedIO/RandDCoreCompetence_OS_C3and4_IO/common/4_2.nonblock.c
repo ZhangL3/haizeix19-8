@@ -1,7 +1,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include "./common/common.h"
+# include "common.h"
 
 int main() {
   int age1 = 0;

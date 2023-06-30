@@ -1,4 +1,7 @@
-# include "common.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+
 int make_nonblock(int fd) {
   int flag;
   if ((flag = fcntl(fd, F_GETFL)) < 0) {
