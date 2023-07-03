@@ -1,6 +1,4 @@
-# include <stdio.h>
-# include <unistd.h>
-# include <fcntl.h>
+#include "head.h"
 
 int make_nonblock(int fd) {
   int flag;
