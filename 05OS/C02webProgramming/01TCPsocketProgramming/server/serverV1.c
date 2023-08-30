@@ -54,6 +54,10 @@ int main(int argc, char **argv) {
 		}
 		char name[20] = {0};
 		printf("Socket after accept.\n");
+    /**
+     * 如果有客户端连接了，但是一直不发信息，程序就会被阻塞在这里，
+     * 无法进入下一次循环，接收新的连接
+    */
 		if (recv(sockfd, name, sizeof(name), 0) <= 0) {
 			close(sockfd);
 			continue;
