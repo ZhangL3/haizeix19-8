@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
   /**
    * 如果客户端连接了，但是不发信息且睡眠，服务端就会被阻塞，无法接收别人的信息
   */
-  // sleep(20);
+  sleep(20);
   if (send(sockfd, "L3", sizeof("L3"), 0) < 0) {
     perror("send");
     exit(1);

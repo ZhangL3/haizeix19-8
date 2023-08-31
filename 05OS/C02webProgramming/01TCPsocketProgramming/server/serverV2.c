@@ -52,20 +52,46 @@ int main(int argc, char **argv) {
 			close(sockfd);
 			continue;
 		}
+
+		pid_t pid;
+
+		if ((pid = fork()) < 0) {
+			perror("fork");
+			continue;
+		}
+
+		/**
+		 * fork 结束后，下面的代码在两个进程中都有
+		 * 如果不想做同样的事情，就要判断逻辑了
+		*/
+		/**
 		char name[20] = {0};
 		printf("Socket after accept.\n");
-		/**
-		 * 如果有客户端连接了，但是一直不发信息，程序就会被阻塞在这里，
-		 * 无法进入下一次循环，接收新的连接
-		 * serverV2.c 中用多进程解决这个问题
-		*/
 		if (recv(sockfd, name, sizeof(name), 0) <= 0) {
-			perror("recv");
 			close(sockfd);
 			continue;
 		}
 		printf("Socket received.\n");
 		printf("name: %s\n", name);
 		close(sockfd);
+		*/
+
+		// 子进程
+		if (pid == 0) {
+			close(server_listen);
+			char name[20] = {0};
+			if (recv(sockfd, name, sizeof(name), 0) <= 0) {
+				perror("recv");
+				close(sockfd);
+				continue;
+			}
+			printf("Socket received in process %d.\n", pid);
+			printf("name: %s\n", name);
+			// 父进程不管退出的子进程，子进程就会变成 zombie 进程
+			exit(0);
+		}
+		// 父进程什么也不做，只负责生出子进程
 	}
+
+	return 0;
 }
