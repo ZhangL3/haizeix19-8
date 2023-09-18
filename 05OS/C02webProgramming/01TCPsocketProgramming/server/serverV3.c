@@ -86,6 +86,7 @@ int main(int argc, char **argv) {
 			close(sockfd);
 			continue;
 		}
+		// 在执行下一次 accept 之前，其他链接都处于 pending 状态
 
 		pid_t pid;
 
