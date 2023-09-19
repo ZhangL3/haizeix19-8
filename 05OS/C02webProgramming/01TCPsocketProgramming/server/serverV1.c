@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
 	port = atoi(argv[1]);
 
 	// AF_INET: IPv4
-	// SOCK_STREAM: 以流的形式传输
+	// SOCK_STREAM: 以流的形式传输 (TCP)
 	if ((server_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		// perror: 解析 errno
 		perror("socket");
