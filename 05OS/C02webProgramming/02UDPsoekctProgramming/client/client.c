@@ -26,14 +26,16 @@ int main(int argc, char **argv) {
   }
   printf("Socket created.\n");
 
-  if (sendToRes = sendto(
+  char msg[] = "L3";
+  sendToRes = sendto(
     sockfd,
-    "L3",
-    sizeof("L3"),
+    msg,
+    sizeof(msg),
     0,
     (struct sockaddr *)&server,
     sizeof(server)
-  ) < 0) {
+  );
+  if (sendToRes < 0) {
     perror("send");
     exit(1);
   }

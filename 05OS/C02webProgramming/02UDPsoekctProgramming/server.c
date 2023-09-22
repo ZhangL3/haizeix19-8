@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
 
 	// AF_INET: IPv4
 	// SOCK_DGRAM: 以报的形式传输 (UDP)
-	if ((server_listen = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+	if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
 		// perror: 解析 errno
 		perror("socket");
 		exit(1);
@@ -34,7 +34,8 @@ int main(int argc, char **argv) {
 
 	// 强转 sockaddr_in 为 sockaddr, 因为 bind 函数要求的
 	// struct sockadd_in 和 sockaddr 的长度是一样的，所以才能强转
-	if (sockfd = bind(server_listen, (struct sockaddr *)&server, sizeof(server)) < 0) {
+	// debug with strace!!!
+	if (bind(sockfd, (struct sockaddr *)&server, sizeof(server)) < 0) {
 		perror("bind");
 		exit(1);
 	}
