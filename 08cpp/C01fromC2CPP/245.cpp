@@ -3,7 +3,7 @@
 #define MAX_N 100000
 using namespace std;
 
-int a[MAX_N + 5];
+int a[MAX_N + 5], ind[MAX_N + 5];
 
 int main() {
   int n;
@@ -16,8 +16,16 @@ int main() {
   // sort(a + 1, a + n + 1);
 
   // 方法 2： nth_element
-  // nth_element(第一个元素，a + k ,最后一个元素后一位) K: 要找的 k 位置的值放在 k 位置
+  // nth_element(第一个元素，a + k ,最后一个元素后一位) K: 要找排后的 k 位置的值放在 k 位置
   nth_element(a + 1, a + (n + 1) / 2, a + n + 1);
+
+  // 证明 nth_element 不排序
+  // for (int i = 1; i <= 100; i++) ind[i] = rand() % 10000;
+  // nth_element(ind + 1, ind + (100 + 1) / 2, ind + 1 + 100);
+  // for (int i = 1; i <= 100; i++) {
+  //   cout << ind[i] << " ";
+  // }
+  // cout << endl;
   // nth_element 不排序
   // for (int i = 1; i <= n; i++) {
   //   cout << a[i] << " ";
